@@ -23,7 +23,7 @@ interface SwapCategory {
   description: string;
   icon: React.ReactNode;
   imageUrl: string;
-  imageHint: string; // Stays in English
+  imageHint: string; 
   exampleSwaps: SwapItem[];
 }
 
@@ -34,7 +34,7 @@ const swapCategories: SwapCategory[] = [
     description: "Reduza o desperdício e os produtos químicos na sua cozinha com estas trocas simples e eficazes para um lar e planeta mais saudáveis.",
     icon: <ShoppingCart className="w-7 h-7 text-primary" />,
     imageUrl: "https://placehold.co/600x400.png",
-    imageHint: "eco kitchen", // Alterado de "eco-friendly kitchen items"
+    imageHint: "eco kitchen", 
     exampleSwaps: [
       { original: "Filme Plástico Aderente", sustainable: "Embalagens de Cera de Abelha ou Tampas de Silicone Reutilizáveis", benefit: "Reduz o desperdício de plástico descartável, seguro para alimentos e reutilizável." },
       { original: "Toalhas de Papel Descartáveis", sustainable: "Guardanapos de Pano Reutilizáveis e Toalhas \"Despapel\"", benefit: "Lavável, durável e reduz significativamente o consumo de papel." },
@@ -48,7 +48,7 @@ const swapCategories: SwapCategory[] = [
     description: "Escolha itens de higiene pessoal que sejam gentis com seu corpo e o meio ambiente, minimizando plástico e ingredientes nocivos.",
     icon: <PackageOpen className="w-7 h-7 text-primary" />,
     imageUrl: "https://placehold.co/600x400.png",
-    imageHint: "natural care", // Alterado de "natural personal care products"
+    imageHint: "eco care", 
     exampleSwaps: [
       { original: "Escova de Dentes de Plástico", sustainable: "Escova de Dentes de Bambu com Cerdas Naturais", benefit: "Cabo biodegradável, reduz o desperdício de plástico." },
       { original: "Sabonete Líquido em Garrafa Plástica", sustainable: "Sabonete em Barra (Sem Embalagem ou Embalado em Papel)", benefit: "Drasticamente menos embalagem plástica, geralmente mais natural." },
@@ -62,7 +62,7 @@ const swapCategories: SwapCategory[] = [
     description: "Opte por soluções sustentáveis e não tóxicas para um ambiente de vida limpo, verde e saudável.",
     icon: <Home className="w-7 h-7 text-primary" />, 
     imageUrl: "https://placehold.co/600x400.png",
-    imageHint: "green cleaning", // Alterado de "green cleaning products"
+    imageHint: "eco cleaning", 
     exampleSwaps: [
       { original: "Limpadores Químicos em Garrafas Plásticas", sustainable: "Limpadores Caseiros (Vinagre, Bicarbonato de Sódio) ou Concentrados Ecológicos", benefit: "Reduz produtos químicos agressivos, desperdício de plástico e poluição do ar interno." },
       { original: "Lenços de Limpeza Descartáveis", sustainable: "Panos de Microfibra Reutilizáveis e Borrifadores", benefit: "Limpeza mais eficaz, lavável e evita plásticos de uso único." },

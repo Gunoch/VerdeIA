@@ -15,7 +15,7 @@ interface ProductImpact {
   name: string;
   category: string;
   imageUrl: string;
-  imageHint: string; // Stays in English for data-ai-hint
+  imageHint: string; 
   carbonFootprint: number; 
   waterUsage: number; 
   sustainabilityScore: number; 
@@ -28,7 +28,7 @@ const dummyProducts: ProductImpact[] = [
     name: "Camiseta de Algodão Convencional",
     category: "Vestuário",
     imageUrl: "https://placehold.co/300x200.png",
-    imageHint: "cotton t-shirt",
+    imageHint: "cotton shirt",
     carbonFootprint: 70,
     waterUsage: 80,
     sustainabilityScore: 30,
@@ -50,7 +50,7 @@ const dummyProducts: ProductImpact[] = [
     name: "Copo de Café Reutilizável de Aço Inoxidável",
     category: "Utensílios de Cozinha",
     imageUrl: "https://placehold.co/300x200.png",
-    imageHint: "coffee cup", // Alterado de "reusable coffee cup"
+    imageHint: "reusable cup", 
     carbonFootprint: 5, 
     waterUsage: 5,  
     sustainabilityScore: 90,
@@ -61,7 +61,7 @@ const dummyProducts: ProductImpact[] = [
     name: "Garrafa de Água Plástica Descartável (500ml)",
     category: "Bebidas",
     imageUrl: "https://placehold.co/300x200.png",
-    imageHint: "water bottle", // Alterado de "plastic water bottle"
+    imageHint: "plastic bottle", 
     carbonFootprint: 85,
     waterUsage: 60, 
     sustainabilityScore: 10,
