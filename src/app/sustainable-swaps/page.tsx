@@ -1,13 +1,13 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CheckCircle, ArrowRight, ShoppingCart, PackageOpen, Home } from "lucide-react"; // Updated Package to PackageOpen, Lightbulb to Home
+import { CheckCircle, ArrowRight, ShoppingCart, PackageOpen, Home } from "lucide-react"; 
 import Image from "next/image";
-import Link from "next/link"; // Keep Link if you plan sub-pages
+import Link from "next/link"; 
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Sustainable Swaps - VerdeAI",
-  description: "Discover eco-friendly alternatives for everyday products.",
+  title: "Trocas Sustentáveis - VerdeAI",
+  description: "Descubra alternativas ecológicas para produtos do dia a dia.",
 };
 
 interface SwapItem {
@@ -22,50 +22,50 @@ interface SwapCategory {
   description: string;
   icon: React.ReactNode;
   imageUrl: string;
-  imageHint: string;
+  imageHint: string; // Stays in English
   exampleSwaps: SwapItem[];
 }
 
 const swapCategories: SwapCategory[] = [
   {
     id: "kitchen",
-    name: "Kitchen Essentials",
-    description: "Reduce waste and chemicals in your kitchen with these simple, effective swaps for a healthier home and planet.",
+    name: "Essenciais de Cozinha",
+    description: "Reduza o desperdício e os produtos químicos na sua cozinha com estas trocas simples e eficazes para um lar e planeta mais saudáveis.",
     icon: <ShoppingCart className="w-7 h-7 text-primary" />,
     imageUrl: "https://placehold.co/600x400.png",
     imageHint: "eco-friendly kitchen items",
     exampleSwaps: [
-      { original: "Plastic Cling Wrap", sustainable: "Beeswax Wraps or Reusable Silicone Lids", benefit: "Reduces single-use plastic waste, food-safe and reusable." },
-      { original: "Disposable Paper Towels", sustainable: "Reusable Cloth Napkins & Unpaper Towels", benefit: "Washable, durable, and significantly reduces paper consumption." },
-      { original: "Plastic Grocery Bags", sustainable: "Reusable Tote Bags (Cotton, Jute, etc.)", benefit: "Prevents plastic pollution and supports sustainable materials." },
-      { original: "Teflon Non-Stick Pans", sustainable: "Cast Iron or Stainless Steel Cookware", benefit: "Avoids PFCs, durable, and can last generations." },
+      { original: "Filme Plástico Aderente", sustainable: "Embalagens de Cera de Abelha ou Tampas de Silicone Reutilizáveis", benefit: "Reduz o desperdício de plástico descartável, seguro para alimentos e reutilizável." },
+      { original: "Toalhas de Papel Descartáveis", sustainable: "Guardanapos de Pano Reutilizáveis e Toalhas \"Despapel\"", benefit: "Lavável, durável e reduz significativamente o consumo de papel." },
+      { original: "Sacolas Plásticas de Supermercado", sustainable: "Ecobags Reutilizáveis (Algodão, Juta, etc.)", benefit: "Evita a poluição plástica e apoia materiais sustentáveis." },
+      { original: "Panelas Antiaderentes de Teflon", sustainable: "Panelas de Ferro Fundido ou Aço Inoxidável", benefit: "Evita PFCs, durável e pode durar gerações." },
     ],
   },
   {
     id: "personal-care",
-    name: "Personal Care Products",
-    description: "Choose personal care items that are kind to your body and the environment, minimizing plastic and harmful ingredients.",
-    icon: <PackageOpen className="w-7 h-7 text-primary" />, // Updated icon
+    name: "Produtos de Higiene Pessoal",
+    description: "Escolha itens de higiene pessoal que sejam gentis com seu corpo e o meio ambiente, minimizando plástico e ingredientes nocivos.",
+    icon: <PackageOpen className="w-7 h-7 text-primary" />,
     imageUrl: "https://placehold.co/600x400.png",
     imageHint: "natural personal care products",
     exampleSwaps: [
-      { original: "Plastic Toothbrush", sustainable: "Bamboo Toothbrush with Natural Bristles", benefit: "Biodegradable handle, reduces plastic waste." },
-      { original: "Liquid Soap in Plastic Bottle", sustainable: "Bar Soap (Package-Free or Paper-Wrapped)", benefit: "Drastically less plastic packaging, often more natural." },
-      { original: "Disposable Makeup Wipes", sustainable: "Reusable Makeup Remover Pads & Natural Oils", benefit: "Washable, gentle on skin, and significantly reduces daily waste." },
-      { original: "Shampoo in Plastic Bottle", sustainable: "Shampoo Bars or Refillable Options", benefit: "Eliminates plastic bottles, concentrated formulas." },
+      { original: "Escova de Dentes de Plástico", sustainable: "Escova de Dentes de Bambu com Cerdas Naturais", benefit: "Cabo biodegradável, reduz o desperdício de plástico." },
+      { original: "Sabonete Líquido em Garrafa Plástica", sustainable: "Sabonete em Barra (Sem Embalagem ou Embalado em Papel)", benefit: "Drasticamente menos embalagem plástica, geralmente mais natural." },
+      { original: "Lenços Demaquilantes Descartáveis", sustainable: "Discos Demaquilantes Reutilizáveis e Óleos Naturais", benefit: "Lavável, suave para a pele e reduz significativamente o desperdício diário." },
+      { original: "Shampoo em Garrafa Plástica", sustainable: "Shampoo em Barra ou Opções Refiláveis", benefit: "Elimina garrafas plásticas, fórmulas concentradas." },
     ],
   },
   {
     id: "home-cleaning",
-    name: "Home & Cleaning Supplies",
-    description: "Opt for sustainable and non-toxic solutions for a clean, green, and healthy living environment.",
-    icon: <Home className="w-7 h-7 text-primary" />, // Updated icon
+    name: "Produtos para Casa e Limpeza",
+    description: "Opte por soluções sustentáveis e não tóxicas para um ambiente de vida limpo, verde e saudável.",
+    icon: <Home className="w-7 h-7 text-primary" />, 
     imageUrl: "https://placehold.co/600x400.png",
     imageHint: "green cleaning products",
     exampleSwaps: [
-      { original: "Chemical Cleaners in Plastic Bottles", sustainable: "DIY Cleaners (Vinegar, Baking Soda) or Eco-Concentrates", benefit: "Reduces harsh chemicals, plastic waste, and indoor air pollution." },
-      { original: "Disposable Cleaning Wipes", sustainable: "Reusable Microfiber Cloths & Spray Bottles", benefit: "More effective cleaning, washable, and avoids single-use plastics." },
-      { original: "Synthetic Air Fresheners", sustainable: "Essential Oil Diffusers or Natural Potpourri", benefit: "Avoids synthetic fragrances and VOCs, improves air quality naturally." },
+      { original: "Limpadores Químicos em Garrafas Plásticas", sustainable: "Limpadores Caseiros (Vinagre, Bicarbonato de Sódio) ou Concentrados Ecológicos", benefit: "Reduz produtos químicos agressivos, desperdício de plástico e poluição do ar interno." },
+      { original: "Lenços de Limpeza Descartáveis", sustainable: "Panos de Microfibra Reutilizáveis e Borrifadores", benefit: "Limpeza mais eficaz, lavável e evita plásticos de uso único." },
+      { original: "Purificadores de Ar Sintéticos", sustainable: "Difusores de Óleos Essenciais ou Potpourri Natural", benefit: "Evita fragrâncias sintéticas e VOCs, melhora a qualidade do ar naturalmente." },
     ],
   },
 ];
@@ -74,9 +74,9 @@ export default function SustainableSwapsPage() {
   return (
     <div className="space-y-10 md:space-y-12">
       <header className="text-center">
-        <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">Sustainable Swaps</h1>
+        <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">Trocas Sustentáveis</h1>
         <p className="text-md md:text-lg text-muted-foreground max-w-3xl mx-auto">
-          Discover easy and impactful eco-friendly alternatives for common household products. Small changes can make a big difference for our planet!
+          Descubra alternativas ecológicas fáceis e impactantes para produtos domésticos comuns. Pequenas mudanças podem fazer uma grande diferença para o nosso planeta!
         </p>
       </header>
 
@@ -104,7 +104,7 @@ export default function SustainableSwapsPage() {
                 <CardDescription className="text-sm">{category.description}</CardDescription>
               </CardHeader>
               <CardContent className="flex-grow pt-0">
-                <h4 className="font-semibold mb-3 text-md text-foreground">Example Swaps:</h4>
+                <h4 className="font-semibold mb-3 text-md text-foreground">Exemplos de Trocas:</h4>
                 <ul className="space-y-3">
                   {category.exampleSwaps.map((swap, idx) => (
                     <li key={idx} className="p-3 border rounded-md bg-background hover:bg-muted/30 transition-colors shadow-sm">
@@ -134,11 +134,11 @@ export default function SustainableSwapsPage() {
       ))}
        <Card className="mt-8 bg-card border-border shadow-md">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-lg"><Home className="w-5 h-5 text-accent" /> Pro Tip!</CardTitle>
+          <CardTitle className="flex items-center gap-2 text-lg"><Home className="w-5 h-5 text-accent" /> Dica Pro!</CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-sm text-muted-foreground">
-            Start with one or two swaps that feel easiest and most impactful for you. Don't try to change everything overnight! Over time, these small, consistent changes add up to a significant positive impact on the environment and can often save you money too.
+            Comece com uma ou duas trocas que pareçam mais fáceis e impactantes para você. Não tente mudar tudo da noite para o dia! Com o tempo, essas pequenas mudanças consistentes somam um impacto positivo significativo no meio ambiente e muitas vezes também podem economizar seu dinheiro.
           </p>
         </CardContent>
       </Card>

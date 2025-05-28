@@ -1,12 +1,12 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { AlertCircle, ShoppingBag, Zap, Thermometer, Droplets, ShieldCheck } from "lucide-react";
+import { AlertCircle, ShoppingBag, Thermometer, Droplets, ShieldCheck } from "lucide-react";
 import Image from "next/image";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Impact Scores - VerdeAI",
-  description: "Understand the environmental impact of various products.",
+  title: "Pontuações de Impacto - VerdeAI",
+  description: "Entenda o impacto ambiental de diversos produtos.",
 };
 
 interface ProductImpact {
@@ -14,57 +14,57 @@ interface ProductImpact {
   name: string;
   category: string;
   imageUrl: string;
-  imageHint: string;
-  carbonFootprint: number; // Score 0-100 (lower is better)
-  waterUsage: number; // Score 0-100 (lower is better)
-  sustainabilityScore: number; // Overall score 0-100 (higher is better)
+  imageHint: string; // Stays in English for data-ai-hint
+  carbonFootprint: number; 
+  waterUsage: number; 
+  sustainabilityScore: number; 
   notes?: string[];
 }
 
 const dummyProducts: ProductImpact[] = [
   {
     id: "1",
-    name: "Conventional Cotton T-Shirt",
-    category: "Apparel",
+    name: "Camiseta de Algodão Convencional",
+    category: "Vestuário",
     imageUrl: "https://placehold.co/300x200.png",
     imageHint: "cotton t-shirt",
     carbonFootprint: 70,
     waterUsage: 80,
     sustainabilityScore: 30,
-    notes: ["High water consumption during cotton farming.", "Often involves pesticides and synthetic fertilizers."]
+    notes: ["Alto consumo de água no cultivo de algodão.", "Frequentemente envolve pesticidas e fertilizantes sintéticos."]
   },
   {
     id: "2",
-    name: "Organic Bamboo Toothbrush",
-    category: "Personal Care",
+    name: "Escova de Dentes de Bambu Orgânico",
+    category: "Cuidados Pessoais",
     imageUrl: "https://placehold.co/300x200.png",
     imageHint: "bamboo toothbrush",
     carbonFootprint: 15,
     waterUsage: 20,
     sustainabilityScore: 85,
-    notes: ["Biodegradable handle (remove bristles).", "Sustainably sourced bamboo, fast-growing."]
+    notes: ["Cabo biodegradável (remover cerdas).", "Bambu de origem sustentável, de rápido crescimento."]
   },
   {
     id: "3",
-    name: "Reusable Stainless Steel Coffee Cup",
-    category: "Kitchenware",
+    name: "Copo de Café Reutilizável de Aço Inoxidável",
+    category: "Utensílios de Cozinha",
     imageUrl: "https://placehold.co/300x200.png",
     imageHint: "reusable coffee cup",
     carbonFootprint: 5, 
     waterUsage: 5,  
     sustainabilityScore: 90,
-    notes: ["Reduces single-use cup waste.", "Durable and long-lasting if cared for.", "Manufacturing has an initial footprint, offset by reuse."]
+    notes: ["Reduz o desperdício de copos descartáveis.", "Durável e de longa duração se bem cuidado.", "A fabricação tem uma pegada inicial, compensada pela reutilização."]
   },
    {
     id: "4",
-    name: "Single-Use Plastic Water Bottle (500ml)",
-    category: "Beverages",
+    name: "Garrafa de Água Plástica Descartável (500ml)",
+    category: "Bebidas",
     imageUrl: "https://placehold.co/300x200.png",
     imageHint: "plastic water bottle",
     carbonFootprint: 85,
-    waterUsage: 60, // Includes water for plastic production
+    waterUsage: 60, 
     sustainabilityScore: 10,
-    notes: ["Contributes to plastic pollution.", "High energy consumption for production and transport.", "Low recycling rates globally."]
+    notes: ["Contribui para a poluição plástica.", "Alto consumo de energia para produção e transporte.", "Baixas taxas de reciclagem globalmente."]
   },
 ];
 
@@ -72,9 +72,9 @@ export default function ImpactScoresPage() {
   return (
     <div className="space-y-8">
       <header className="text-center">
-        <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">Product Impact Scores</h1>
+        <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">Pontuações de Impacto de Produtos</h1>
         <p className="text-md md:text-lg text-muted-foreground max-w-3xl mx-auto">
-          Understand the environmental footprint of various products. Lower scores for Carbon Footprint and Water Usage are better. A higher Sustainability Score is better.
+          Entenda a pegada ambiental de diversos produtos. Pontuações mais baixas para Pegada de Carbono e Uso de Água são melhores. Uma Pontuação de Sustentabilidade mais alta é melhor.
         </p>
       </header>
 
@@ -100,30 +100,30 @@ export default function ImpactScoresPage() {
             <CardContent className="space-y-4 flex-grow">
               <div>
                 <div className="flex justify-between items-center text-sm mb-1">
-                  <span className="flex items-center gap-1"><Thermometer className="w-4 h-4 text-red-500" />Carbon Footprint</span>
+                  <span className="flex items-center gap-1"><Thermometer className="w-4 h-4 text-red-500" />Pegada de Carbono</span>
                   <span className="font-semibold">{product.carbonFootprint}/100</span>
                 </div>
-                <Progress value={product.carbonFootprint} aria-label={`Carbon footprint ${product.carbonFootprint}%`} className="h-2 [&>div]:bg-red-500" />
+                <Progress value={product.carbonFootprint} aria-label={`Pegada de carbono ${product.carbonFootprint}%`} className="h-2 [&>div]:bg-red-500" />
               </div>
               <div>
                 <div className="flex justify-between items-center text-sm mb-1">
-                  <span className="flex items-center gap-1"><Droplets className="w-4 h-4 text-blue-500" />Water Usage</span>
+                  <span className="flex items-center gap-1"><Droplets className="w-4 h-4 text-blue-500" />Uso de Água</span>
                   <span className="font-semibold">{product.waterUsage}/100</span>
                 </div>
-                <Progress value={product.waterUsage} aria-label={`Water usage ${product.waterUsage}%`} className="h-2 [&>div]:bg-blue-500" />
+                <Progress value={product.waterUsage} aria-label={`Uso de água ${product.waterUsage}%`} className="h-2 [&>div]:bg-blue-500" />
               </div>
               <div>
                 <div className="flex justify-between items-center text-sm mb-1">
-                  <span className="flex items-center gap-1"><ShieldCheck className="w-4 h-4 text-primary" />Overall Sustainability</span>
+                  <span className="flex items-center gap-1"><ShieldCheck className="w-4 h-4 text-primary" />Sustentabilidade Geral</span>
                   <span className="font-semibold">{product.sustainabilityScore}/100</span>
                 </div>
-                <Progress value={product.sustainabilityScore} aria-label={`Sustainability score ${product.sustainabilityScore}%`} className="h-2 [&>div]:bg-primary" />
+                <Progress value={product.sustainabilityScore} aria-label={`Pontuação de sustentabilidade ${product.sustainabilityScore}%`} className="h-2 [&>div]:bg-primary" />
               </div>
               
             </CardContent>
             {product.notes && product.notes.length > 0 && (
                 <CardFooter className="flex-col items-start pt-3 border-t mt-auto">
-                  <h4 className="text-xs font-semibold mb-1 text-muted-foreground">Key Considerations:</h4>
+                  <h4 className="text-xs font-semibold mb-1 text-muted-foreground">Considerações Chave:</h4>
                   <ul className="list-disc list-inside space-y-1">
                     {product.notes.map((note, idx) => (
                       <li key={idx} className="text-xs text-muted-foreground">{note}</li>
@@ -136,11 +136,11 @@ export default function ImpactScoresPage() {
       </div>
       <Card className="mt-8 bg-card border-border shadow-md">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-lg"><AlertCircle className="w-5 h-5 text-accent" /> Disclaimer</CardTitle>
+          <CardTitle className="flex items-center gap-2 text-lg"><AlertCircle className="w-5 h-5 text-accent" /> Aviso Legal</CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-sm text-muted-foreground">
-            These scores are illustrative and based on generalized data. Actual environmental impact can vary significantly based on specific manufacturing processes, supply chain logistics, consumer usage patterns, and end-of-life disposal. This feature is intended for educational and awareness purposes.
+            Estas pontuações são ilustrativas e baseadas em dados generalizados. O impacto ambiental real pode variar significativamente com base em processos de fabricação específicos, logística da cadeia de suprimentos, padrões de uso do consumidor e descarte no fim da vida útil. Este recurso destina-se a fins educacionais e de conscientização.
           </p>
         </CardContent>
       </Card>

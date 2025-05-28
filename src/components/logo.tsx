@@ -7,7 +7,7 @@ export default function Logo({ className = "w-8 h-8" }: { className?: string }) 
       viewBox="0 0 100 100"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      aria-label="VerdeAI Logo"
+      aria-label="Logo da VerdeAI"
     >
       <circle cx="50" cy="50" r="45" fill="hsl(var(--primary))" />
       {/* Stylized Leaf/V */}

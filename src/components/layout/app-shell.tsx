@@ -22,10 +22,10 @@ export function AppShell({ children }: PropsWithChildren) {
   const pathname = usePathname();
 
   const navItems = [
-    { href: "/", label: "Home", icon: HomeIcon },
-    { href: "/suggestions", label: "Smart Suggestions", icon: Leaf },
-    { href: "/impact-scores", label: "Impact Scores", icon: Gauge },
-    { href: "/sustainable-swaps", label: "Sustainable Swaps", icon: Replace },
+    { href: "/", label: "Início", icon: HomeIcon },
+    { href: "/suggestions", label: "Sugestões Inteligentes", icon: Leaf },
+    { href: "/impact-scores", label: "Pontuações de Impacto", icon: Gauge },
+    { href: "/sustainable-swaps", label: "Trocas Sustentáveis", icon: Replace },
   ];
 
   return (

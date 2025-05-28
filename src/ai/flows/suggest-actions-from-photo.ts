@@ -22,7 +22,7 @@ export type SuggestActionsFromPhotoInput = z.infer<typeof SuggestActionsFromPhot
 const SuggestActionsFromPhotoOutputSchema = z.object({
   actions: z
     .array(z.string())
-    .describe('A list of suggested environmentally conscious actions.'),
+    .describe('A list of suggested environmentally conscious actions, in Portuguese.'),
 });
 export type SuggestActionsFromPhotoOutput = z.infer<typeof SuggestActionsFromPhotoOutputSchema>;
 
@@ -34,12 +34,12 @@ const prompt = ai.definePrompt({
   name: 'suggestActionsFromPhotoPrompt',
   input: {schema: SuggestActionsFromPhotoInputSchema},
   output: {schema: SuggestActionsFromPhotoOutputSchema},
-  prompt: `You are an AI assistant designed to suggest environmentally conscious actions based on a photo of an object.
+  prompt: `Você é um assistente de IA projetado para sugerir ações ambientalmente conscientes com base na foto de um objeto.
 
-  Given the following photo, suggest a list of actions the user can take to be more sustainable.
+  Dada a foto a seguir, sugira uma lista de ações que o usuário pode realizar para ser mais sustentável. As sugestões devem estar em português.
 
-  Photo: {{media url=photoDataUri}}
-  Actions:`, // Ensure the LLM returns a list of actions
+  Foto: {{media url=photoDataUri}}
+  Ações:`, // Ensure the LLM returns a list of actions
 });
 
 const suggestActionsFromPhotoFlow = ai.defineFlow(

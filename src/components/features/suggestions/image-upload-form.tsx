@@ -6,9 +6,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Loader2, UploadCloud, Image as ImageIcon, AlertCircle, Sparkles } from "lucide-react";
+import { Loader2, UploadCloud, Image as ImageIcon, AlertCircle, Sparkles, Leaf } from "lucide-react";
 import { suggestActionsFromPhoto, type SuggestActionsFromPhotoOutput } from "@/ai/flows/suggest-actions-from-photo";
-import NextImage from "next/image"; // Renamed to avoid conflict with Lucide icon
+import NextImage from "next/image"; 
 
 export function ImageUploadForm() {
   const [file, setFile] = useState<File | null>(null);
@@ -21,7 +21,7 @@ export function ImageUploadForm() {
     const selectedFile = event.target.files?.[0];
     if (selectedFile) {
       if (selectedFile.size > 5 * 1024 * 1024) { // 5MB limit
-        setError("File is too large. Please upload an image under 5MB.");
+        setError("O arquivo é muito grande. Envie uma imagem com menos de 5MB.");
         setFile(null);
         setPreviewUrl(null);
         return;
@@ -40,7 +40,7 @@ export function ImageUploadForm() {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!file) {
-      setError("Please select an image file.");
+      setError("Por favor, selecione um arquivo de imagem.");
       return;
     }
 
@@ -54,21 +54,27 @@ export function ImageUploadForm() {
       reader.onload = async () => {
         const photoDataUri = reader.result as string;
         if (!photoDataUri.startsWith('data:image/')) {
-          setError("Invalid file type. Please upload an image (e.g., PNG, JPG).");
+          setError("Tipo de arquivo inválido. Envie uma imagem (ex: PNG, JPG).");
           setIsLoading(false);
           return;
         }
         const result = await suggestActionsFromPhoto({ photoDataUri });
         setSuggestions(result);
+        setIsLoading(false); 
       };
       reader.onerror = () => {
-        setError("Failed to read the file. Please try again.");
+        setError("Falha ao ler o arquivo. Por favor, tente novamente.");
         setIsLoading(false);
       }
     } catch (err) {
       console.error(err);
-      setError(err instanceof Error ? `AI Error: ${err.message}` : "An unknown error occurred while fetching suggestions.");
-      setIsLoading(false);
+      setError(err instanceof Error ? `Erro da IA: ${err.message}` : "Ocorreu um erro desconhecido ao buscar sugestões.");
+    } finally {
+      // Ensure isLoading is set to false in case of an error during the flow call itself
+      // (not covered by reader.onerror or specific checks if suggestActionsFromPhoto throws directly)
+      if (isLoading) { // Check if it's still true, meaning it wasn't set false by other paths
+         setIsLoading(false);
+      }
     }
   };
 
@@ -78,14 +84,14 @@ export function ImageUploadForm() {
         <CardHeader>
           <CardTitle className="text-2xl flex items-center gap-2">
             <Sparkles className="w-6 h-6 text-primary" />
-            Get Smart Suggestions
+            Obter Sugestões Inteligentes
           </CardTitle>
-          <CardDescription>Upload a photo of an object, and our AI will suggest eco-friendly actions you can take.</CardDescription>
+          <CardDescription>Envie a foto de um objeto e nossa IA sugerirá ações ecológicas que você pode tomar.</CardDescription>
         </CardHeader>
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="image-upload" className="text-sm font-medium">Upload Image</Label>
+              <Label htmlFor="image-upload" className="text-sm font-medium">Enviar Imagem</Label>
               <Input 
                 id="image-upload" 
                 type="file" 
@@ -93,12 +99,12 @@ export function ImageUploadForm() {
                 onChange={handleFileChange} 
                 className="file:text-primary file:font-semibold file:mr-3 file:py-2 file:px-3 file:rounded-full file:border-0 file:bg-primary/10 hover:file:bg-primary/20 transition-colors" 
               />
-              <p className="text-xs text-muted-foreground">Max file size: 5MB. Supported formats: PNG, JPG, WEBP, GIF.</p>
+              <p className="text-xs text-muted-foreground">Tamanho máximo do arquivo: 5MB. Formatos suportados: PNG, JPG, WEBP, GIF.</p>
             </div>
             {previewUrl && (
               <div className="mt-4 p-4 border rounded-md bg-muted/30">
-                <p className="text-sm font-medium mb-2 text-foreground flex items-center gap-2"><ImageIcon className="w-4 h-4" />Image Preview:</p>
-                <NextImage src={previewUrl} alt="Preview" width={200} height={200} className="rounded-md object-contain max-h-48 w-auto mx-auto shadow-md" />
+                <p className="text-sm font-medium mb-2 text-foreground flex items-center gap-2"><ImageIcon className="w-4 h-4" />Pré-visualização da Imagem:</p>
+                <NextImage src={previewUrl} alt="Pré-visualização" width={200} height={200} className="rounded-md object-contain max-h-48 w-auto mx-auto shadow-md" />
               </div>
             )}
           </CardContent>
@@ -107,12 +113,12 @@ export function ImageUploadForm() {
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                  Analyzing Image...
+                  Analisando Imagem...
                 </>
               ) : (
                 <>
                   <UploadCloud className="mr-2 h-5 w-5" />
-                  Get Suggestions
+                  Obter Sugestões
                 </>
               )}
             </Button>
@@ -123,7 +129,7 @@ export function ImageUploadForm() {
       {error && (
         <Alert variant="destructive" className="max-w-xl mx-auto shadow">
           <AlertCircle className="h-4 w-4" />
-          <AlertTitle>Oops! Something went wrong.</AlertTitle>
+          <AlertTitle>Oops! Algo deu errado.</AlertTitle>
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
@@ -133,7 +139,7 @@ export function ImageUploadForm() {
           <CardHeader>
             <CardTitle className="text-xl flex items-center gap-2">
               <Leaf className="w-5 h-5 text-primary" />
-              Eco-Actions Suggested
+              Ações Ecológicas Sugeridas
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -144,7 +150,7 @@ export function ImageUploadForm() {
                 ))}
               </ul>
             ) : (
-               <p className="text-sm text-muted-foreground">The AI couldn't identify specific actions for this image, or no specific eco-actions apply. Try uploading a different photo of a common object!</p>
+               <p className="text-sm text-muted-foreground">A IA não conseguiu identificar ações específicas para esta imagem, ou nenhuma ação ecológica específica se aplica. Tente enviar uma foto diferente de um objeto comum!</p>
             )}
           </CardContent>
         </Card>
