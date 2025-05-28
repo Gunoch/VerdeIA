@@ -82,7 +82,7 @@ function FeatureCard({ icon, title, description, link }: FeatureCardProps) {
       </CardContent>
       <CardFooter className="justify-center">
          <Button asChild variant="ghost" className="text-primary hover:text-primary/90">
-            <Link href={link}>Explorar {title} &rarr;</Link>
+            <Link href={link}>Explorar &rarr;</Link>
          </Button>
       </CardFooter>
     </Card>
