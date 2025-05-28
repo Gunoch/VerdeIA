@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, type ChangeEvent, type FormEvent } from "react";
-import { Button, buttonVariants } from "@/components/ui/button"; // Added buttonVariants
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,7 +10,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Loader2, UploadCloud, Image as ImageIcon, AlertCircle, Sparkles, Leaf } from "lucide-react";
 import { suggestActionsFromPhoto, type SuggestActionsFromPhotoOutput } from "@/ai/flows/suggest-actions-from-photo";
 import NextImage from "next/image"; 
-import { cn } from "@/lib/utils"; // Added cn
+import { cn } from "@/lib/utils";
 
 export function ImageUploadForm() {
   const [file, setFile] = useState<File | null>(null);
@@ -34,10 +34,9 @@ export function ImageUploadForm() {
         setPreviewUrl(reader.result as string);
       };
       reader.readAsDataURL(selectedFile);
-      setSuggestions(null);
-      setError(null);
+      setSuggestions(null); // Limpa sugestões antigas
+      setError(null); // Limpa erros antigos
     } else {
-      // Clear file and preview if no file is selected (e.g., user cancels file dialog)
       setFile(null);
       setPreviewUrl(null);
     }
@@ -54,32 +53,32 @@ export function ImageUploadForm() {
     setError(null);
     setSuggestions(null);
 
-    try {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = async () => {
-        const photoDataUri = reader.result as string;
-        if (!photoDataUri.startsWith('data:image/')) {
-          setError("Tipo de arquivo inválido. Envie uma imagem (ex: PNG, JPG).");
-          setIsLoading(false);
-          return;
-        }
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onload = async () => {
+      const photoDataUri = reader.result as string;
+      if (!photoDataUri || !photoDataUri.startsWith('data:image/')) {
+        setError("Tipo de arquivo inválido ou falha na leitura. Envie uma imagem (ex: PNG, JPG, WEBP, GIF).");
+        setIsLoading(false);
+        return;
+      }
+      try {
         const result = await suggestActionsFromPhoto({ photoDataUri });
         setSuggestions(result);
-        setIsLoading(false); 
-      };
-      reader.onerror = () => {
-        setError("Falha ao ler o arquivo. Por favor, tente novamente.");
+      } catch (err) {
+        console.error("Erro ao buscar sugestões da IA:", err);
+        setError(err instanceof Error ? `Erro da IA: ${err.message}` : "Ocorreu um erro desconhecido ao buscar sugestões.");
+      } finally {
         setIsLoading(false);
       }
-    } catch (err) {
-      console.error(err);
-      setError(err instanceof Error ? `Erro da IA: ${err.message}` : "Ocorreu um erro desconhecido ao buscar sugestões.");
-    } finally {
-      if (isLoading) { 
-         setIsLoading(false);
-      }
-    }
+    };
+
+    reader.onerror = () => {
+      console.error("Erro ao ler o arquivo com FileReader.");
+      setError("Falha ao ler o arquivo. Por favor, tente novamente.");
+      setIsLoading(false);
+    };
   };
 
   return (
@@ -107,7 +106,7 @@ export function ImageUploadForm() {
                 <Label
                   htmlFor="image-upload" // This label triggers the hidden input
                   className={cn(
-                    buttonVariants({ variant: "outline" }), // Style as a button
+                    buttonVariants({ variant: "outline" }),
                     "cursor-pointer"
                   )}
                 >
@@ -153,7 +152,7 @@ export function ImageUploadForm() {
         </Alert>
       )}
 
-      {suggestions && (
+      {suggestions && !isLoading && ( // Adicionado !isLoading para não mostrar sugestões antigas enquanto carrega novas
         <Card className="max-w-xl mx-auto shadow-lg border-border">
           <CardHeader>
             <CardTitle className="text-xl flex items-center gap-2">
