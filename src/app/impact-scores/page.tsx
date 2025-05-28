@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { AlertCircle, ShoppingBag, Thermometer, Droplets, ShieldCheck } from "lucide-react";
@@ -49,7 +50,7 @@ const dummyProducts: ProductImpact[] = [
     name: "Copo de Café Reutilizável de Aço Inoxidável",
     category: "Utensílios de Cozinha",
     imageUrl: "https://placehold.co/300x200.png",
-    imageHint: "reusable coffee cup",
+    imageHint: "coffee cup", // Alterado de "reusable coffee cup"
     carbonFootprint: 5, 
     waterUsage: 5,  
     sustainabilityScore: 90,
@@ -60,7 +61,7 @@ const dummyProducts: ProductImpact[] = [
     name: "Garrafa de Água Plástica Descartável (500ml)",
     category: "Bebidas",
     imageUrl: "https://placehold.co/300x200.png",
-    imageHint: "plastic water bottle",
+    imageHint: "water bottle", // Alterado de "plastic water bottle"
     carbonFootprint: 85,
     waterUsage: 60, 
     sustainabilityScore: 10,
