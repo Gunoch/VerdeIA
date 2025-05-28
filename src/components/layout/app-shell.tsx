@@ -1,3 +1,4 @@
+
 "use client";
 import { 
   SidebarProvider, 
@@ -12,7 +13,7 @@ import {
   SidebarTrigger 
 } from "@/components/ui/sidebar";
 import Link from "next/link";
-import { Leaf, Gauge, Replace, HomeIcon } from "lucide-react";
+import { Leaf, Gauge, Replace, HomeIcon, BarChart3 } from "lucide-react";
 import Logo from "@/components/logo";
 import type { PropsWithChildren } from "react";
 import { usePathname } from "next/navigation";
@@ -26,6 +27,7 @@ export function AppShell({ children }: PropsWithChildren) {
     { href: "/suggestions", label: "Sugestões Inteligentes", icon: Leaf },
     { href: "/impact-scores", label: "Pontuações de Impacto", icon: Gauge },
     { href: "/sustainable-swaps", label: "Trocas Sustentáveis", icon: Replace },
+    { href: "/national-stats", label: "Estatísticas Nacionais", icon: BarChart3 },
   ];
 
   return (
