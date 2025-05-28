@@ -1,7 +1,8 @@
+
 "use client";
 
 import { useState, type ChangeEvent, type FormEvent } from "react";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button"; // Added buttonVariants
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,6 +10,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Loader2, UploadCloud, Image as ImageIcon, AlertCircle, Sparkles, Leaf } from "lucide-react";
 import { suggestActionsFromPhoto, type SuggestActionsFromPhotoOutput } from "@/ai/flows/suggest-actions-from-photo";
 import NextImage from "next/image"; 
+import { cn } from "@/lib/utils"; // Added cn
 
 export function ImageUploadForm() {
   const [file, setFile] = useState<File | null>(null);
@@ -34,6 +36,10 @@ export function ImageUploadForm() {
       reader.readAsDataURL(selectedFile);
       setSuggestions(null);
       setError(null);
+    } else {
+      // Clear file and preview if no file is selected (e.g., user cancels file dialog)
+      setFile(null);
+      setPreviewUrl(null);
     }
   };
 
@@ -70,9 +76,7 @@ export function ImageUploadForm() {
       console.error(err);
       setError(err instanceof Error ? `Erro da IA: ${err.message}` : "Ocorreu um erro desconhecido ao buscar sugestões.");
     } finally {
-      // Ensure isLoading is set to false in case of an error during the flow call itself
-      // (not covered by reader.onerror or specific checks if suggestActionsFromPhoto throws directly)
-      if (isLoading) { // Check if it's still true, meaning it wasn't set false by other paths
+      if (isLoading) { 
          setIsLoading(false);
       }
     }
@@ -91,14 +95,29 @@ export function ImageUploadForm() {
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="image-upload" className="text-sm font-medium">Enviar Imagem</Label>
-              <Input 
-                id="image-upload" 
-                type="file" 
-                accept="image/png, image/jpeg, image/webp, image/gif" 
-                onChange={handleFileChange} 
-                className="file:text-primary file:font-semibold file:mr-3 file:py-2 file:px-3 file:rounded-full file:border-0 file:bg-primary/10 hover:file:bg-primary/20 transition-colors" 
-              />
+              <Label htmlFor="image-upload-trigger" className="text-sm font-medium">Enviar Imagem</Label>
+              <div className="flex items-center gap-3">
+                <Input 
+                  id="image-upload" 
+                  type="file" 
+                  accept="image/png, image/jpeg, image/webp, image/gif" 
+                  onChange={handleFileChange} 
+                  className="hidden" // Visually hide the default input
+                />
+                <Label
+                  htmlFor="image-upload" // This label triggers the hidden input
+                  className={cn(
+                    buttonVariants({ variant: "outline" }), // Style as a button
+                    "cursor-pointer"
+                  )}
+                >
+                  <UploadCloud className="mr-2 h-4 w-4" />
+                  Escolher Arquivo
+                </Label>
+                <span className="text-sm text-muted-foreground flex-1 truncate">
+                  {file ? file.name : "Nenhum arquivo escolhido"}
+                </span>
+              </div>
               <p className="text-xs text-muted-foreground">Tamanho máximo do arquivo: 5MB. Formatos suportados: PNG, JPG, WEBP, GIF.</p>
             </div>
             {previewUrl && (
