@@ -1,3 +1,4 @@
+
 import type {Metadata} from 'next';
 import {Geist, Geist_Mono} from 'next/font/google';
 import './globals.css';
@@ -16,7 +17,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'VerdeAI - Consciência Ambiental com IA',
-  description: 'VerdeAI ajuda você a fazer escolhas ecológicas com sugestões e insights baseados em IA.',
+  description: 'VerdeAI ajuda você a fazer escolhas ecológicas com análises de produtos, pontuações de impacto e insights baseados em IA.', // Descrição atualizada
 };
 
 export default function RootLayout({

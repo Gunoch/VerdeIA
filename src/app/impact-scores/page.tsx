@@ -4,9 +4,9 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { AlertCircle, ShoppingBag, Thermometer, Droplets, ShieldCheck, Brain } from "lucide-react";
+import { AlertCircle, ShoppingBag, Thermometer, Droplets, ShieldCheck, Brain, Info } from "lucide-react";
 import Image from "next/image";
-import type { Metadata } from "next";
+// import type { Metadata } from "next"; // Comentado pois "use client" não permite metadata estática
 import { useState } from "react";
 import ProductAnalysisForm, { type AnalyzedProduct } from "@/components/features/impact-scores/product-analysis-form";
 
@@ -95,7 +95,7 @@ function ProductImpactCard({ product }: { product: ProductImpact }) {
       {!product.imageUrl && product.isAiEstimated && (
          <div className="relative w-full h-48 bg-muted flex flex-col items-center justify-center text-muted-foreground">
             <Brain className="w-16 h-16 mb-2" />
-            <p className="text-sm">Imagem não gerada pela IA</p>
+            <p className="text-sm">Estimativa da IA (sem imagem)</p>
          </div>
       )}
       <CardHeader>
@@ -110,30 +110,30 @@ function ProductImpactCard({ product }: { product: ProductImpact }) {
       <CardContent className="space-y-4 flex-grow">
         <div>
           <div className="flex justify-between items-center text-sm mb-1">
-            <span className="flex items-center gap-1"><Thermometer className="w-4 h-4 text-red-500" />Pegada de Carbono</span>
+            <span className="flex items-center gap-1 font-medium"><Thermometer className="w-4 h-4 text-red-500" />Pegada de Carbono</span>
             <span className="font-semibold">{product.carbonFootprint}/100</span>
           </div>
-          <Progress value={product.carbonFootprint} aria-label={`Pegada de carbono ${product.carbonFootprint}%`} className="h-2 [&>div]:bg-red-500" />
+          <Progress value={product.carbonFootprint} aria-label={`Pegada de carbono ${product.carbonFootprint}%`} className="h-2.5 [&>div]:bg-red-500" />
         </div>
         <div>
           <div className="flex justify-between items-center text-sm mb-1">
-            <span className="flex items-center gap-1"><Droplets className="w-4 h-4 text-blue-500" />Uso de Água</span>
+            <span className="flex items-center gap-1 font-medium"><Droplets className="w-4 h-4 text-blue-500" />Uso de Água</span>
             <span className="font-semibold">{product.waterUsage}/100</span>
           </div>
-          <Progress value={product.waterUsage} aria-label={`Uso de água ${product.waterUsage}%`} className="h-2 [&>div]:bg-blue-500" />
+          <Progress value={product.waterUsage} aria-label={`Uso de água ${product.waterUsage}%`} className="h-2.5 [&>div]:bg-blue-500" />
         </div>
         <div>
           <div className="flex justify-between items-center text-sm mb-1">
-            <span className="flex items-center gap-1"><ShieldCheck className="w-4 h-4 text-primary" />Sustentabilidade Geral</span>
+            <span className="flex items-center gap-1 font-medium"><ShieldCheck className="w-4 h-4 text-primary" />Sustentabilidade Geral</span>
             <span className="font-semibold">{product.sustainabilityScore}/100</span>
           </div>
-          <Progress value={product.sustainabilityScore} aria-label={`Pontuação de sustentabilidade ${product.sustainabilityScore}%`} className="h-2 [&>div]:bg-primary" />
+          <Progress value={product.sustainabilityScore} aria-label={`Pontuação de sustentabilidade ${product.sustainabilityScore}%`} className="h-2.5 [&>div]:bg-primary" />
         </div>
       </CardContent>
       {product.notes && product.notes.length > 0 && (
         <CardFooter className="flex-col items-start pt-3 border-t mt-auto">
-          <h4 className="text-xs font-semibold mb-1 text-muted-foreground">Considerações Chave:</h4>
-          <ul className="list-disc list-inside space-y-1">
+          <h4 className="text-sm font-semibold mb-1.5 text-muted-foreground flex items-center gap-1"><Info size={16} />Considerações Chave:</h4>
+          <ul className="list-disc list-inside space-y-1 pl-2">
             {product.notes.map((note, idx) => (
               <li key={idx} className="text-xs text-muted-foreground">{note}</li>
             ))}
@@ -162,7 +162,7 @@ export default function ImpactScoresPage() {
     id: `ai-${new Date().getTime()}`, // Gera um ID único
     name: analyzedProduct.name,
     category: analyzedProduct.category,
-    imageUrl: "", // IA não fornece imagem, podemos usar um placeholder ou omitir
+    imageUrl: "", // IA não fornece imagem para este fluxo
     imageHint: "ai analyzed product",
     carbonFootprint: analyzedProduct.carbonFootprint,
     waterUsage: analyzedProduct.waterUsage,
@@ -178,7 +178,7 @@ export default function ImpactScoresPage() {
        <header className="text-center">
         <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">Pontuações de Impacto de Produtos</h1>
         <p className="text-md md:text-lg text-muted-foreground max-w-3xl mx-auto">
-          Entenda a pegada ambiental de diversos produtos. Analise um item específico por nome ou foto, ou explore nossa lista de exemplos.
+          Entenda a pegada ambiental de diversos produtos. Use o formulário abaixo para uma estimativa da IA sobre um item específico, ou explore nossa lista de exemplos para referência.
         </p>
       </header>
 
@@ -197,9 +197,10 @@ export default function ImpactScoresPage() {
         <section className="mt-10 pt-8 border-t">
            <Alert variant="destructive" className="max-w-md mx-auto">
             <AlertCircle className="h-4 w-4" />
-            <AlertTitle>Produto Não Identificado</AlertTitle>
+            <AlertTitle>Produto Não Identificado ou Análise Inconclusiva</AlertTitle>
             <AlertDescription>
-              A IA não conseguiu identificar ou pontuar o produto fornecido. Tente ser mais específico ou usar uma imagem mais clara.
+              A IA não conseguiu identificar ou pontuar o produto fornecido de forma conclusiva. Tente ser mais específico ou usar uma imagem mais clara.
+              {analyzedProduct.notes && analyzedProduct.notes.length > 0 && ` Detalhe: ${analyzedProduct.notes.join(" ")}`}
             </AlertDescription>
           </Alert>
         </section>
@@ -209,7 +210,7 @@ export default function ImpactScoresPage() {
       <section className={`mt-10 pt-8 ${analyzedProduct ? 'border-t' : ''}`}>
         <h2 className="text-2xl font-semibold text-primary mb-6 text-center">Exemplos de Pontuações de Impacto</h2>
          <p className="text-center text-md text-muted-foreground mb-6 max-w-3xl mx-auto">
-          Pontuações mais baixas para Pegada de Carbono e Uso de Água são melhores. Uma Pontuação de Sustentabilidade mais alta é melhor.
+          Estes são exemplos para ilustração. Pontuações mais baixas para Pegada de Carbono e Uso de Água são melhores. Uma Pontuação de Sustentabilidade mais alta é melhor.
         </p>
         <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
           {dummyProducts.map((product) => (
@@ -232,5 +233,3 @@ export default function ImpactScoresPage() {
     </div>
   );
 }
-
-    

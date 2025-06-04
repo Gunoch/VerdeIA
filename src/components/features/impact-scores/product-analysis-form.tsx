@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, type ChangeEvent, type FormEvent, useRef } from "react";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -11,8 +11,8 @@ import { Loader2, UploadCloud, Image as ImageIcon, AlertCircle, Search, Brain, W
 import NextImage from "next/image";
 import { cn } from "@/lib/utils";
 import { scoreProductByName, type ScoreProductByNameOutput } from "@/ai/flows/score-product-by-name-flow";
-import { identifyProductFromPhoto, type IdentifyProductFromPhotoOutput } from "@/ai/flows/identify-product-from-photo-flow";
-import { Textarea } from "@/components/ui/textarea"; // Usaremos Textarea para nome do produto
+import { identifyProductFromPhoto } from "@/ai/flows/identify-product-from-photo-flow";
+import { Textarea } from "@/components/ui/textarea"; 
 
 export interface AnalyzedProduct extends ScoreProductByNameOutput {
   // Herda todos os campos de ScoreProductByNameOutput
@@ -133,9 +133,9 @@ export default function ProductAnalysisForm({ onAnalysisComplete }: ProductAnaly
         <CardHeader>
           <CardTitle className="text-xl md:text-2xl flex items-center gap-2">
             <Wand2 className="w-6 h-6 text-primary" />
-            Analise o Impacto de um Produto
+            Analise o Impacto de um Produto (Exemplos e Estimativas)
           </CardTitle>
-          <CardDescription>Use a IA para estimar o impacto ambiental de um produto específico, por nome ou foto.</CardDescription>
+          <CardDescription>Use a IA para estimar o impacto ambiental de um produto específico, por nome ou foto (para a lista de exemplos abaixo), ou explore nossa lista curada.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           {/* Análise por Nome */}

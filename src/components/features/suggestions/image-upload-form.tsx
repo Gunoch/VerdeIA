@@ -1,6 +1,9 @@
 
 "use client";
 
+// ESTE COMPONENTE FOI SUBSTITUÍDO POR ProductAnalysisForm e ProductAnalysisResults
+// E DEVE SER REMOVIDO FUTURAMENTE.
+
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -87,7 +90,7 @@ export function ImageUploadForm() {
         <CardHeader>
           <CardTitle className="text-2xl flex items-center gap-2">
             <Sparkles className="w-6 h-6 text-primary" />
-            Obter Sugestões Inteligentes
+            Obter Sugestões Inteligentes (Antigo)
           </CardTitle>
           <CardDescription>Envie a foto de um objeto e nossa IA sugerirá ações ecológicas que você pode tomar.</CardDescription>
         </CardHeader>
@@ -152,7 +155,7 @@ export function ImageUploadForm() {
         </Alert>
       )}
 
-      {suggestions && !isLoading && ( // Adicionado !isLoading para não mostrar sugestões antigas enquanto carrega novas
+      {suggestions && !isLoading && ( 
         <Card className="max-w-xl mx-auto shadow-lg border-border">
           <CardHeader>
             <CardTitle className="text-xl flex items-center gap-2">
