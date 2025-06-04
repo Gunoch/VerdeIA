@@ -1,8 +1,9 @@
 
 "use client";
 
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle, ShoppingBag, Thermometer, Droplets, ShieldCheck, Brain } from "lucide-react";
 import Image from "next/image";
 import type { Metadata } from "next";
