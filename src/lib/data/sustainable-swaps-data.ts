@@ -1,6 +1,4 @@
 
-'use server';
-
 import type { ReactNode } from "react";
 
 export interface SwapItem {
