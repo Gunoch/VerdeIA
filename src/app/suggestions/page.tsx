@@ -7,6 +7,7 @@ import ProductAnalysisForm from "@/components/features/product-analysis/product-
 import ProductAnalysisResults from "@/components/features/product-analysis/product-analysis-results";
 import type { AnalyzeProductOutput } from "@/ai/flows/analyze-product-flow";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"; // Added Card imports
 import { AlertCircle, Loader2 } from "lucide-react";
 
 // Metadata estática não pode ser usada em arquivos com "use client"
