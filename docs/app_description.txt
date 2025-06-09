@@ -1,0 +1,54 @@
+Descrição do Aplicativo e Melhorias Sugeridas
+
+**Objetivo Principal do Aplicativo:**
+
+O aplicativo "Ecovida" tem como objetivo principal ser uma ferramenta educativa e prática para promover um estilo de vida mais sustentável no Brasil. Ele visa aumentar a conscientização sobre as questões ambientais específicas do país e empoderar os usuários, oferecendo informações e alternativas concretas para que possam reduzir seu impacto ambiental no dia a dia. A meta é transformar a consciência em ação, tornando a sustentabilidade mais acessível e compreensível para o cidadão comum.
+
+**Público-Alvo:**
+
+O público-alvo do Ecovida são indivíduos no Brasil interessados em sustentabilidade, mas que podem não saber por onde começar ou como suas ações diárias impactam o meio ambiente. Inclui pessoas que buscam alternativas mais ecológicas para produtos e hábitos, estudantes interessados em dados ambientais brasileiros, e cidadãos que desejam contribuir para um futuro mais sustentável. O aplicativo é projetado para ser acessível e informativo para um público amplo, independentemente do seu nível de conhecimento prévio sobre sustentabilidade.
+
+O objetivo principal do aplicativo "Ecovida" (nome a ser confirmado) é empoderar os usuários, fornecendo informações e ferramentas que os ajudem a tomar decisões mais conscientes e sustentáveis em seu dia a dia. Ele busca aumentar a conscientização sobre questões ambientais no Brasil e oferecer alternativas práticas para reduzir o impacto individual no planeta.
+
+**O que o aplicativo faz:**
+
+Atualmente, o aplicativo oferece as seguintes funcionalidades, cada uma contribuindo para o objetivo principal de forma específica:
+
+1.  **Estatísticas Nacionais:** Apresenta dados relevantes sobre a situação ambiental no Brasil, como percentual de resíduos sólidos urbanos reciclados e dados sobre desmatamento na Amazônia Legal. (Baseado em `src/app/national-stats/page.tsx`)
+    *   **Contribuição para o Objetivo:** Esta funcionalidade visa educar os usuários sobre o cenário ambiental atual no país, destacando a urgência e a relevância de ações sustentáveis. Ao apresentar dados concretos, busca motivar mudanças de comportamento e aumentar a conscientização sobre os desafios ambientais que enfrentamos.
+2.  **Trocas Sustentáveis (Sustainable Swaps):** Fornece sugestões de produtos ou hábitos mais sustentáveis para substituir itens de uso comum em diferentes categorias, como cuidados pessoais e limpeza doméstica. (Baseado em `src/lib/data/sustainable-swaps-data.ts`)
+    *   **Contribuição para o Objetivo:** Oferece alternativas práticas e acessíveis para que os usuários possam incorporar a sustentabilidade em suas rotinas diárias. Ao sugerir trocas simples, torna a transição para um estilo de vida mais ecológico menos intimidadora e mais viável.
+3.  **Sugestões (Suggestions):** Parece haver uma seção dedicada a sugestões, possivelmente relacionada a ações individuais ou comunitárias para um estilo de vida mais sustentável. (Baseado na existência de `src/app/suggestions/page.tsx` e `src/components/features/suggestions/image-upload-form.tsx`, indicando interação com imagens)
+    *   **Contribuição para o Objetivo:** Esta seção busca inspirar os usuários com ideias e ações concretas que vão além das trocas de produtos, incentivando um engajamento maior com a sustentabilidade em diversas áreas da vida.
+4.  **Pontuação de Impacto (Impact Scores):** Há uma seção para pontuação de impacto, que pode estar relacionada à análise do impacto ambiental de produtos ou ações. (Baseado na existência de `src/app/impact-scores/page.tsx` e componentes relacionados em `src/components/features/impact-scores/`)
+    *   **Contribuição para o Objetivo:** Ao quantificar ou visualizar o impacto ambiental, esta funcionalidade ajuda os usuários a entenderem as consequências de suas escolhas e a identificar áreas onde podem fazer uma diferença maior. Promove uma reflexão sobre o consumo e o comportamento.
+    *   **Detalhes Adicionais:** Pela estrutura dos arquivos, esta funcionalidade parece estar ligada à análise de produtos ou hábitos específicos para fornecer uma métrica (a "pontuação") que represente o impacto ambiental. Detalhes sobre como essa pontuação é calculada e quais critérios são utilizados ainda precisariam ser confirmados pela análise do código subjacente.
+5.  **Análise de Produto (Product Analysis):** Componentes indicam a funcionalidade de analisar produtos, possivelmente para avaliar seu impacto ambiental ou sugerir alternativas. (Baseado na existência de componentes como `src/components/features/product-analysis/product-analysis-form.tsx` e `src/components/features/product-analysis/product-analysis-results.tsx`)
+    *   **Contribuição para o Objetivo:** Fornece informações detalhadas sobre produtos específicos, permitindo que os usuários façam escolhas de compra mais informadas e alinhadas com seus valores de sustentabilidade. Sugerir alternativas mais ecológicas facilita a adoção de hábitos de consumo consciente.
+    *   **Detalhes Adicionais:** Esta funcionalidade parece utilizar a entrada do usuário (possivelmente nome do produto ou imagem) para realizar uma análise. Componentes como `product-analysis-results.tsx` sugerem que os resultados da análise são apresentados de forma estruturada. A conexão com as funcionalidades de IA (Genkit) indica que modelos de linguagem ou visão computacional podem estar sendo usados para extrair informações sobre o produto e seu impacto, ou para encontrar alternativas sustentáveis. Os flows de IA como `analyze-product-flow.ts` e `identify-product-from-photo-flow.ts` corroboram essa hipótese.
+
+**Tecnologias Utilizadas:**
+
+O aplicativo é construído com uma stack de tecnologias modernas e populares no desenvolvimento web:
+*   **Frontend:** Desenvolvido com **React** e o framework **Next.js**, proporcionando uma experiência de usuário rápida e otimizada para SEO. A interface é responsiva, garantindo que o aplicativo funcione bem em diferentes dispositivos (desktop, tablets, celulares).
+*   **Componentes UI:** Utiliza a biblioteca de componentes **Shadcn UI**, baseada no Tailwind CSS, para construir a interface do usuário de forma consistente e eficiente.
+*   **Linguagem:** Todo o código é escrito em **TypeScript**, adicionando tipagem estática para maior robustez e manutenibilidade do projeto.
+*   **Inteligência Artificial:** Integra modelos de IA através do **Genkit**, uma ferramenta para construir flows de IA. Os arquivos na pasta `src/ai/` indicam o uso de Genkit para tarefas como análise de produtos e processamento de imagens (`src/ai/flows/analyze-product-flow.ts`, `src/ai/flows/identify-product-from-photo-flow.ts`, etc.), sugerindo que a IA é um componente chave para funcionalidades interativas e de análise.
+
+**O que pode ser melhorado:**
+
+1.  **Atualização de Dados:** As estatísticas nacionais são estáticas e não atualizadas em tempo real. Seria importante explorar a integração com APIs ou fontes de dados dinâmicas para fornecer informações mais recentes e precisas. (Baseado no aviso em `src/app/national-stats/page.tsx` [3])
+2.  **Abrangência dos Dados:** Expandir as categorias de estatísticas nacionais para incluir outros indicadores ambientais relevantes para o Brasil (ex: qualidade do ar, consumo de água, geração de resíduos por tipo).
+3.  **Conteúdo de Trocas Sustentáveis:** Adicionar mais exemplos e categorias de trocas sustentáveis. Considerar a possibilidade de os usuários sugerirem novas trocas, criando um aspecto colaborativo.
+4.  **Personalização:** Permitir que os usuários personalizem as informações que veem, talvez salvando suas trocas sustentáveis favoritas ou acompanhando seu próprio "impacto" (se essa funcionalidade for implementada de forma mais robusta).
+5.  **Interação do Usuário:** Atualmente, a interação parece ser principalmente informativa. Seria interessante adicionar funcionalidades que incentivem a participação do usuário, como:
+    *   Compartilhamento de sugestões ou progressos em redes sociais.
+    *   Desafios ou metas de sustentabilidade.
+    *   Comunidades ou fóruns de discussão.
+6.  **Funcionalidade de Sugestões/Análise de Imagem:** Refinar a funcionalidade de upload de imagem para identificação de produtos e sugestão de ações sustentáveis. Garantir a precisão e utilidade das sugestões geradas pela IA.
+7.  **Documentação Adicional:** Criar documentação mais detalhada sobre a arquitetura do aplicativo, as APIs utilizadas, o fluxo de dados e as instruções para contribuição.
+8.  **Acessibilidade:** Realizar testes de acessibilidade rigorosos e implementar melhorias para garantir que o aplicativo possa ser utilizado por pessoas com diferentes necessidades e tecnologias assistivas.
+9.  **Testes:** Implementar uma suíte de testes (unitários, de integração, end-to-end) para garantir a estabilidade e confiabilidade do aplicativo.
+10. **Internacionalização:** Embora o conteúdo atual esteja em português, considerar a possibilidade de adicionar suporte a outros idiomas no futuro.
+
+Esta descrição é baseada na análise dos arquivos do projeto. Para uma compreensão completa, seria necessário explorar o código e as funcionalidades em execução.
