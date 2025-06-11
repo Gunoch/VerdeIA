@@ -158,7 +158,6 @@ export default function ImpactScoresPage() {
       </header>
 
       <section className="mt-10 pt-8">
-        <h2 className="text-2xl font-semibold text-primary mb-6 text-center">Exemplos Curados</h2>
          <p className="text-center text-md text-muted-foreground mb-6 max-w-3xl mx-auto">
           Estes são exemplos para ilustração. As pontuações são baseadas em dados generalizados e destinam-se a fins educacionais.
         </p>
@@ -183,3 +182,4 @@ export default function ImpactScoresPage() {
     </div>
   );
 }
+
