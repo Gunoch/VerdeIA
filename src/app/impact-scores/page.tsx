@@ -3,17 +3,14 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle, ShoppingBag, Thermometer, Droplets, ShieldCheck, Brain, Info } from "lucide-react";
 import Image from "next/image";
 // import type { Metadata } from "next"; // Comentado pois "use client" não permite metadata estática
-import { useState } from "react";
-import ProductAnalysisForm, { type AnalyzedProduct } from "@/components/features/impact-scores/product-analysis-form";
 
 // Metadata estática não pode ser usada em arquivos com "use client"
 // export const metadata: Metadata = {
-//   title: "Pontuações de Impacto - VerdeAI",
-//   description: "Entenda o impacto ambiental de diversos produtos ou analise os seus.",
+//   title: "Exemplos de Pontuações de Impacto - VerdeAI",
+//   description: "Explore exemplos do impacto ambiental de diversos produtos.",
 // };
 
 interface ProductImpact {
@@ -151,66 +148,19 @@ function ProductImpactCard({ product }: { product: ProductImpact }) {
 
 
 export default function ImpactScoresPage() {
-  const [analyzedProduct, setAnalyzedProduct] = useState<AnalyzedProduct | null>(null);
-
-  const handleAnalysisComplete = (product: AnalyzedProduct | null) => {
-    setAnalyzedProduct(product);
-  };
-
-  // Para manter a consistência com a interface ProductImpact, mapeamos AnalyzedProduct
-  const displayableAnalyzedProduct: ProductImpact | null = analyzedProduct && analyzedProduct.identified ? {
-    id: `ai-${new Date().getTime()}`, // Gera um ID único
-    name: analyzedProduct.name,
-    category: analyzedProduct.category,
-    imageUrl: "", // IA não fornece imagem para este fluxo
-    imageHint: "ai analyzed product",
-    carbonFootprint: analyzedProduct.carbonFootprint,
-    waterUsage: analyzedProduct.waterUsage,
-    sustainabilityScore: analyzedProduct.sustainabilityScore,
-    notes: analyzedProduct.notes,
-    isAiEstimated: true,
-    identified: true,
-  } : null;
-
-
   return (
     <div className="space-y-8">
        <header className="text-center">
-        <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">Pontuações de Impacto de Produtos</h1>
+        <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">Exemplos de Pontuações de Impacto</h1>
         <p className="text-md md:text-lg text-muted-foreground max-w-3xl mx-auto">
-          Entenda a pegada ambiental de diversos produtos. Use o formulário abaixo para uma estimativa da IA sobre um item específico, ou explore nossa lista de exemplos para referência.
+          Explore nossa lista de exemplos para entender a pegada ambiental de diversos produtos. Pontuações mais baixas para Pegada de Carbono e Uso de Água são melhores, enquanto uma Pontuação de Sustentabilidade mais alta é desejável.
         </p>
       </header>
 
-      <ProductAnalysisForm onAnalysisComplete={handleAnalysisComplete} />
-
-      {displayableAnalyzedProduct && (
-        <section className="mt-10 pt-8 border-t">
-          <h2 className="text-2xl font-semibold text-primary mb-4 text-center">Produto Analisado pela IA</h2>
-          <div className="max-w-md mx-auto">
-            <ProductImpactCard product={displayableAnalyzedProduct} />
-          </div>
-        </section>
-      )}
-
-      {analyzedProduct && !analyzedProduct.identified && (
-        <section className="mt-10 pt-8 border-t">
-           <Alert variant="destructive" className="max-w-md mx-auto">
-            <AlertCircle className="h-4 w-4" />
-            <AlertTitle>Produto Não Identificado ou Análise Inconclusiva</AlertTitle>
-            <AlertDescription>
-              A IA não conseguiu identificar ou pontuar o produto fornecido de forma conclusiva. Tente ser mais específico ou usar uma imagem mais clara.
-              {analyzedProduct.notes && analyzedProduct.notes.length > 0 && ` Detalhe: ${analyzedProduct.notes.join(" ")}`}
-            </AlertDescription>
-          </Alert>
-        </section>
-      )}
-
-
-      <section className={`mt-10 pt-8 ${analyzedProduct ? 'border-t' : ''}`}>
-        <h2 className="text-2xl font-semibold text-primary mb-6 text-center">Exemplos de Pontuações de Impacto</h2>
+      <section className="mt-10 pt-8">
+        <h2 className="text-2xl font-semibold text-primary mb-6 text-center">Exemplos Curados</h2>
          <p className="text-center text-md text-muted-foreground mb-6 max-w-3xl mx-auto">
-          Estes são exemplos para ilustração. Pontuações mais baixas para Pegada de Carbono e Uso de Água são melhores. Uma Pontuação de Sustentabilidade mais alta é melhor.
+          Estes são exemplos para ilustração. As pontuações são baseadas em dados generalizados e destinam-se a fins educacionais.
         </p>
         <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
           {dummyProducts.map((product) => (
@@ -226,7 +176,7 @@ export default function ImpactScoresPage() {
         </CardHeader>
         <CardContent>
           <p className="text-sm text-muted-foreground">
-            As pontuações de exemplo são ilustrativas e baseadas em dados generalizados. As pontuações geradas por IA são estimativas e podem não refletir perfeitamente o impacto real de um item específico. O impacto ambiental real pode variar significativamente com base em processos de fabricação, logística, uso e descarte. Este recurso destina-se a fins educacionais e de conscientização.
+            As pontuações de exemplo são ilustrativas e baseadas em dados generalizados. O impacto ambiental real pode variar significativamente com base em processos de fabricação, logística, uso e descarte. Este recurso destina-se a fins educacionais e de conscientização.
           </p>
         </CardContent>
       </Card>
