@@ -5,7 +5,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Progress } from "@/components/ui/progress";
 import { AlertCircle, ShoppingBag, Thermometer, Droplets, ShieldCheck, Brain, Info } from "lucide-react";
 import Image from "next/image";
-// import type { Metadata } from "next"; // Comentado pois "use client" não permite metadata estática
 
 // Metadata estática não pode ser usada em arquivos com "use client"
 // export const metadata: Metadata = {
@@ -32,7 +31,7 @@ const dummyProducts: ProductImpact[] = [
     id: "1",
     name: "Camiseta de Algodão Convencional",
     category: "Vestuário",
-    imageUrl: "https://placehold.co/300x200.png",
+    imageUrl: "/images/cotton-shirt.png",
     imageHint: "cotton shirt",
     carbonFootprint: 70,
     waterUsage: 80,
@@ -43,7 +42,7 @@ const dummyProducts: ProductImpact[] = [
     id: "2",
     name: "Escova de Dentes de Bambu Orgânico",
     category: "Cuidados Pessoais",
-    imageUrl: "https://placehold.co/300x200.png",
+    imageUrl: "/images/bamboo-toothbrush.png",
     imageHint: "bamboo toothbrush",
     carbonFootprint: 15,
     waterUsage: 20,
@@ -54,7 +53,7 @@ const dummyProducts: ProductImpact[] = [
     id: "3",
     name: "Copo de Café Reutilizável de Aço Inoxidável",
     category: "Utensílios de Cozinha",
-    imageUrl: "https://placehold.co/300x200.png",
+    imageUrl: "/images/reusable-cup.png",
     imageHint: "reusable cup",
     carbonFootprint: 5,
     waterUsage: 5,
@@ -65,7 +64,7 @@ const dummyProducts: ProductImpact[] = [
     id: "4",
     name: "Garrafa de Água Plástica Descartável (500ml)",
     category: "Bebidas",
-    imageUrl: "https://placehold.co/300x200.png",
+    imageUrl: "/images/plastic-bottle.png",
     imageHint: "plastic bottle",
     carbonFootprint: 85,
     waterUsage: 60,
@@ -85,7 +84,6 @@ function ProductImpactCard({ product }: { product: ProductImpact }) {
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="object-cover"
-            data-ai-hint={product.imageHint || "product image"}
           />
         </div>
       )}
@@ -158,9 +156,6 @@ export default function ImpactScoresPage() {
       </header>
 
       <section className="mt-10 pt-8">
-         <p className="text-center text-md text-muted-foreground mb-6 max-w-3xl mx-auto">
-          Estes são exemplos para ilustração. As pontuações são baseadas em dados generalizados e destinam-se a fins educacionais.
-        </p>
         <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
           {dummyProducts.map((product) => (
             <ProductImpactCard key={product.id} product={product} />
@@ -182,4 +177,3 @@ export default function ImpactScoresPage() {
     </div>
   );
 }
-

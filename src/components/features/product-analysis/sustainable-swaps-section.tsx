@@ -34,7 +34,18 @@ export default function SustainableSwapsSection({ productCategory, originalProdu
   }
 
   return (
-    <Card className="mt-6 bg-card border-border shadow-md">
+    <Card className="mt-6 bg-card border-border shadow-md overflow-hidden">
+       {relevantSwapCategory.imageUrl && (
+        <div className="relative w-full h-48">
+          <Image
+            src={relevantSwapCategory.imageUrl}
+            alt={relevantSwapCategory.name}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover"
+          />
+        </div>
+      )}
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-lg">
           <Leaf className="w-5 h-5 text-primary" />

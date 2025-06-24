@@ -25,7 +25,7 @@ export const swapCategoriesData: SwapCategoryData[] = [
     id: "kitchen", // Cozinha
     name: "Essenciais de Cozinha",
     description: "Reduza o desperdício e os produtos químicos na sua cozinha com estas trocas simples e eficazes para um lar e planeta mais saudáveis.",
-    imageUrl: "https://placehold.co/600x400.png",
+    imageUrl: "/images/eco-kitchen.png",
     imageHint: "eco kitchen", 
     exampleSwaps: [
       { original: "Filme Plástico Aderente", sustainable: "Embalagens de Cera de Abelha ou Tampas de Silicone Reutilizáveis", benefit: "Reduz o desperdício de plástico descartável, seguro para alimentos e reutilizável." },
@@ -40,7 +40,7 @@ export const swapCategoriesData: SwapCategoryData[] = [
     id: "personal-care", // Cuidados Pessoais
     name: "Produtos de Higiene Pessoal",
     description: "Escolha itens de higiene pessoal que sejam gentis com seu corpo e o meio ambiente, minimizando plástico e ingredientes nocivos.",
-    imageUrl: "https://placehold.co/600x400.png",
+    imageUrl: "/images/eco-care.png",
     imageHint: "eco care", 
     exampleSwaps: [
       { original: "Escova de Dentes de Plástico", sustainable: "Escova de Dentes de Bambu com Cerdas Naturais", benefit: "Cabo biodegradável, reduz o desperdício de plástico." },
@@ -55,7 +55,7 @@ export const swapCategoriesData: SwapCategoryData[] = [
     id: "home-cleaning", // Limpeza Doméstica
     name: "Produtos para Casa e Limpeza",
     description: "Opte por soluções sustentáveis e não tóxicas para um ambiente de vida limpo, verde e saudável.",
-    imageUrl: "https://placehold.co/600x400.png",
+    imageUrl: "/images/eco-cleaning.png",
     imageHint: "eco cleaning", 
     exampleSwaps: [
       { original: "Limpadores Químicos em Garrafas Plásticas", sustainable: "Limpadores Caseiros (Vinagre, Bicarbonato de Sódio) ou Concentrados Ecológicos", benefit: "Reduz produtos químicos agressivos, desperdício de plástico e poluição do ar interno." },
@@ -69,7 +69,7 @@ export const swapCategoriesData: SwapCategoryData[] = [
     id: "food-packaging", // Embalagens de Alimentos (categoria mais específica, pode ser útil)
     name: "Embalagens e Armazenamento de Alimentos",
     description: "Formas mais sustentáveis de armazenar e transportar seus alimentos, reduzindo o plástico de uso único.",
-    imageUrl: "https://placehold.co/600x400.png",
+    imageUrl: "/images/food-storage.png",
     imageHint: "food storage",
     exampleSwaps: [
       { original: "Sacos plásticos Ziploc", sustainable: "Potes de vidro, recipientes de aço inoxidável ou sacos de silicone reutilizáveis", benefit: "Duráveis, reutilizáveis e evitam o descarte de plástico." },
@@ -82,7 +82,7 @@ export const swapCategoriesData: SwapCategoryData[] = [
     id: "geral", // Geral
     name: "Trocas Sustentáveis Gerais",
     description: "Alternativas ecológicas que podem se aplicar a diversos tipos de produtos ou situações.",
-    imageUrl: "https://placehold.co/600x400.png",
+    imageUrl: "/images/general-eco.png",
     imageHint: "general eco",
     exampleSwaps: [
       { original: "Produtos de marca com muita embalagem", sustainable: "Produtos a granel ou com embalagens minimalistas/recicladas", benefit: "Reduz o desperdício de embalagens." },
