@@ -26,8 +26,26 @@ const IdentifyProductFromPhotoOutputSchema = z.object({
 });
 export type IdentifyProductFromPhotoOutput = z.infer<typeof IdentifyProductFromPhotoOutputSchema>;
 
+// Cache em memória para os resultados de identificação de fotos para garantir consistência.
+const photoIdentificationCache = new Map<string, IdentifyProductFromPhotoOutput>();
+
 export async function identifyProductFromPhoto(input: IdentifyProductFromPhotoInput): Promise<IdentifyProductFromPhotoOutput> {
-  return identifyProductFromPhotoFlow(input);
+  const photoDataUriKey = input.photoDataUri;
+
+  if (photoIdentificationCache.has(photoDataUriKey)) {
+    console.log('[CACHE HIT] para identificação de foto.');
+    return photoIdentificationCache.get(photoDataUriKey)!;
+  }
+
+  console.log('[CACHE MISS] para identificação de foto. Chamando IA.');
+  const result = await identifyProductFromPhotoFlow(input);
+  
+  // Armazena no cache se um produto foi identificado
+  if (result.identified) {
+      photoIdentificationCache.set(photoDataUriKey, result);
+  }
+
+  return result;
 }
 
 const prompt = ai.definePrompt({
@@ -68,5 +86,3 @@ const identifyProductFromPhotoFlow = ai.defineFlow(
     };
   }
 );
-
-    

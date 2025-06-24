@@ -46,12 +46,11 @@ export default function HomePage() {
         </p>
         <div className="aspect-video max-w-2xl mx-auto rounded-md overflow-hidden">
           <Image 
-            src="https://placehold.co/800x450.png" 
+            src="/images/nature-landscape.png" 
             alt="Paisagem verdejante com um rio sinuoso" 
             width={800} 
             height={450} 
             className="w-full h-full object-cover"
-            data-ai-hint="nature landscape" 
           />
         </div>
       </section>

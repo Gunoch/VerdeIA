@@ -36,11 +36,14 @@ const AnalyzeProductOutputSchema = z.object({
 });
 export type AnalyzeProductOutput = z.infer<typeof AnalyzeProductOutputSchema>;
 
+const EcoActionsInputSchema = z.object({ productName: z.string(), productDescription: z.string().optional(), productCategory: z.string().optional() });
+const EcoActionsOutputSchema = z.object({ actions: z.array(z.string()) });
+
 // Prompt para gerar ações ecológicas (reciclagem, reutilização, descarte)
 const ecoActionsPrompt = ai.definePrompt({
     name: 'ecoActionsPrompt',
-    input: { schema: z.object({ productName: z.string(), productDescription: z.string().optional(), productCategory: z.string().optional() }) },
-    output: { schema: z.object({ actions: z.array(z.string()) }) },
+    input: { schema: EcoActionsInputSchema },
+    output: { schema: EcoActionsOutputSchema },
     prompt: `Dado o produto "{{productName}}" ({{#if productDescription}}descrito como "{{productDescription}}"{{/if}}{{#if productCategory}} da categoria "{{productCategory}}"{{/if}}), sugira de 2 a 4 ações ecológicas concretas que um consumidor pode tomar.
     Concentre-se em:
     1.  Formas corretas de descarte e reciclagem.
@@ -56,6 +59,28 @@ const ecoActionsPrompt = ai.definePrompt({
     Ações:
     `,
 });
+
+// Cache para as eco-ações para garantir consistência.
+const ecoActionsCache = new Map<string, z.infer<typeof EcoActionsOutputSchema>>();
+
+// Wrapper para o prompt de eco-ações com lógica de cache.
+async function getEcoActions(input: z.infer<typeof EcoActionsInputSchema>): Promise<z.infer<typeof EcoActionsOutputSchema>> {
+    // Cria uma chave de cache normalizada e consistente
+    const cacheKey = `${input.productName.toLowerCase()}|${input.productCategory?.toLowerCase()}`;
+    
+    if (ecoActionsCache.has(cacheKey)) {
+        console.log(`[CACHE HIT] para ecoActions: ${cacheKey}`);
+        return ecoActionsCache.get(cacheKey)!;
+    }
+    
+    console.log(`[CACHE MISS] para ecoActions: ${cacheKey}. Chamando IA.`);
+    const { output } = await ecoActionsPrompt(input);
+    
+    if (output && output.actions.length > 0) {
+        ecoActionsCache.set(cacheKey, output);
+    }
+    return output || { actions: [] }; // Retorna um array vazio se a IA não gerar nada
+}
 
 
 export async function analyzeProduct(input: AnalyzeProductInput): Promise<AnalyzeProductOutput> {
@@ -132,24 +157,24 @@ const analyzeProductFlow = ai.defineFlow(
 
       let finalEcoActions: string[] = ["Nenhuma ação específica gerada pela IA."];
       if (scoringResult.identified) {
-          const ecoActionsOutput = await ecoActionsPrompt({
+          const ecoActionsOutput = await getEcoActions({
               productName: scoringResult.name, // Usa o nome normalizado pela IA
               productDescription: initialProductDescription,
               productCategory: scoringResult.category
           });
-          if (ecoActionsOutput.output?.actions && ecoActionsOutput.output.actions.length > 0) {
-              finalEcoActions = ecoActionsOutput.output.actions;
+          if (ecoActionsOutput.actions && ecoActionsOutput.actions.length > 0) {
+              finalEcoActions = ecoActionsOutput.actions;
           }
       } else if (productIdentifiedFromPhoto && !scoringResult.identified) {
          // Produto foi identificado na foto, mas IA de score não conseguiu pontuar
          // Ainda assim, tentar gerar ecoActions com base no nome identificado
-          const ecoActionsOutput = await ecoActionsPrompt({
+          const ecoActionsOutput = await getEcoActions({
               productName: productNameToScore,
               productDescription: initialProductDescription,
               productCategory: "Desconhecida"
           });
-          if (ecoActionsOutput.output?.actions && ecoActionsOutput.output.actions.length > 0) {
-              finalEcoActions = ecoActionsOutput.output.actions;
+          if (ecoActionsOutput.actions && ecoActionsOutput.actions.length > 0) {
+              finalEcoActions = ecoActionsOutput.actions;
           }
       }
 
