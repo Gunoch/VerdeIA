@@ -67,22 +67,51 @@ const prompt = ai.definePrompt({
   name: 'scoreProductByNamePrompt',
   input: { schema: ScoreProductByNameInputSchema },
   output: { schema: ScoreProductByNameOutputSchema },
-  prompt: `Você é um especialista em sustentabilidade e análise de ciclo de vida de produtos. Sua tarefa é estimar o impacto ambiental de um produto de consumo com base no nome fornecido.
+  prompt: `Você é um especialista em sustentabilidade e análise de ciclo de vida de produtos. Sua tarefa é avaliar o impacto ambiental de um produto de consumo com base no nome fornecido, seguindo uma RUBRICA ESTRITA para garantir consistência.
 
 Produto: {{{productName}}}
 
-Por favor, forneça as seguintes informações:
-1.  **name**: O nome do produto, possivelmente uma versão mais clara ou normalizada se o nome de entrada for vago. Se o produto for muito genérico ou não identificável, use o nome de entrada.
-2.  **category**: A categoria principal do produto (ex: Vestuário, Eletrônicos, Alimentos, Cuidados Pessoais, Utensílios de Cozinha, Brinquedos, Móveis, etc.).
-3.  **carbonFootprint**: Uma estimativa da pegada de carbono do produto em uma escala de 0 a 100 (0 = impacto muito baixo, 100 = impacto muito alto). Considere produção, transporte e descarte.
-4.  **waterUsage**: Uma estimativa do uso de água associado ao produto em uma escala de 0 a 100 (0 = uso muito baixo, 100 = uso muito alto). Considere produção e uso, se aplicável.
-5.  **sustainabilityScore**: Uma pontuação geral de sustentabilidade do produto em uma escala de 0 a 100 (0 = nada sustentável, 100 = muito sustentável). Considere materiais, durabilidade, produção ética, reciclabilidade, impacto social, etc.
-6.  **notes**: Uma lista curta (2-3 itens) de considerações ambientais chave ou dicas sobre o produto, em português. Por exemplo: "Feito com 50% de plástico reciclado", "Consome muita energia durante o uso", "Procure por certificações de comércio justo".
-7.  **identified**: Defina como 'true' se você puder identificar razoavelmente o produto e fornecer estimativas. Se o nome do produto for muito vago (ex: "coisa", "item"), não for um produto de consumo comum, ou se for impossível estimar, defina como 'false' e use valores padrão (ex: 0 para pontuações) e indique nos 'notes' que não foi possível analisar.
+**INSTRUÇÕES:**
+1.  **Identifique o produto:** Determine o material principal, o processo de fabricação e o ciclo de vida típico do produto.
+2.  **Aplique a Rúbrica de Pontuação:** Use a rúbrica abaixo para calcular CADA pontuação. NÃO use estimativas vagas. Baseie-se nos critérios definidos.
+3.  **Calcule a Pontuação de Sustentabilidade:** Comece com 50 pontos e ajuste com base nos critérios da rúbrica.
+4.  **Gere as Notas:** As notas devem justificar brevemente as pontuações com base na rúbrica (ex: "Pegada de carbono alta devido à produção intensiva" ou "Sustentabilidade alta por ser reutilizável e de material biodegradável").
+5.  **Responda em JSON:** Formate a saída estritamente de acordo com o esquema de saída.
 
-Tente ser o mais realista possível com as estimativas, mesmo que sejam aproximadas. Se um produto tiver variações significativas (ex: "carro"), tente estimar para uma versão comum ou média, ou indique a dificuldade nos 'notes'.
-Priorize produtos de consumo comuns. Para produtos muito específicos, industriais ou abstratos, pode ser mais difícil, então defina 'identified' como false.
-Responda apenas no formato JSON especificado pelo esquema de saída.
+---
+**RÚBRICA DE PONTUAÇÃO (SEGUIR ESTRITAMENTE)**
+
+**1. Pegada de Carbono (0-100, onde 100 é o pior impacto):**
+*   **0-20 (Muito Baixo):** Produtos vegetais não processados, itens reutilizáveis com longa vida útil (ex: maçã, copo de vidro, livro).
+*   **21-40 (Baixo):** Produtos com processamento mínimo, materiais reciclados ou orgânicos (ex: pão, camiseta de algodão orgânico, papel reciclado).
+*   **41-60 (Médio):** Processamento industrial moderado, embalagens plásticas, eletrônicos de consumo (ex: iogurte, smartphone, tênis de material sintético).
+*   **61-80 (Alto):** Produção intensiva em energia, carne (exceto bovina), transporte de longa distância (ex: frango, queijo, calça jeans convencional).
+*   **81-100 (Muito Alto):** Produtos de plástico virgem de uso único, carne bovina, transporte intensivo (ex: garrafa PET, bife, carro a gasolina).
+
+**2. Uso de Água (0-100, onde 100 é o pior impacto):**
+*   **0-20 (Muito Baixo):** Itens que usam pouquíssima água na produção (ex: eletrônicos, vidro, produtos sintéticos).
+*   **21-40 (Baixo):** Culturas de baixo consumo de água (ex: batatas, vegetais folhosos).
+*   **41-60 (Médio):** Processamento industrial, papel (ex: lata de alumínio, camiseta de poliéster).
+*   **61-80 (Alto):** Culturas com uso intensivo de água (ex: arroz, algodão convencional, café).
+*   **81-100 (Muito Alto):** Produtos de origem animal, nozes (ex: carne bovina, chocolate, amêndoas, calça jeans de algodão).
+
+**3. Pontuação de Sustentabilidade (0-100, onde 100 é o melhor):**
+*   **Base:** Comece com 50 pontos.
+*   **Ajustes de Material:**
+    *   '+20 pts' se o material principal for renovável, reciclado ou biodegradável (ex: bambu, algodão orgânico, vidro, aço reciclado).
+    *   '-20 pts' se o material principal for plástico virgem, não reciclável ou de fonte extrativa problemática.
+*   **Ajustes de Ciclo de Vida/Uso:**
+    *   '+20 pts' se for projetado para ser durável e reutilizável por muitos anos (ex: panela de ferro, copo reutilizável).
+    *   '-20 pts' se for de uso único ou tiver vida útil curta (ex: copo descartável, talheres de plástico).
+*   **Ajustes de Impacto de Produção:**
+    *   '+10 pts' se a produção for reconhecidamente de baixo impacto (ex: agricultura orgânica).
+    *   '-10 pts' se a produção tiver alto consumo de energia/água (baseado nas pontuações de Carbono e Água acima de 60).
+
+---
+
+Se o produto for muito vago (ex: "coisa") ou não for um produto de consumo, defina 'identified' como 'false' e use 0 para as pontuações.
+
+Responda apenas no formato JSON especificado.
 `,
 });
 
