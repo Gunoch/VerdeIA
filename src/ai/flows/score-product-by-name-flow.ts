@@ -27,9 +27,14 @@ const ScoreProductByNameOutputSchema = z.object({
 });
 export type ScoreProductByNameOutput = z.infer<typeof ScoreProductByNameOutputSchema>;
 
+// Cache em memória para armazenar os resultados das avaliações e garantir consistência para itens iguais.
+const scoreCache = new Map<string, ScoreProductByNameOutput>();
+
 export async function scoreProductByName(input: ScoreProductByNameInput): Promise<ScoreProductByNameOutput> {
+  const productNameKey = input.productName.trim().toLowerCase();
+
   // Adiciona uma verificação para nomes de produtos muito curtos ou genéricos
-  if (input.productName.trim().length < 3) {
+  if (productNameKey.length < 3) {
     return {
       name: input.productName,
       category: "Desconhecida",
@@ -40,7 +45,22 @@ export async function scoreProductByName(input: ScoreProductByNameInput): Promis
       identified: false,
     };
   }
-  return scoreProductByNameFlow(input);
+
+  // Verifica o cache antes de chamar o fluxo para garantir resultados consistentes.
+  if (scoreCache.has(productNameKey)) {
+    console.log(`[CACHE HIT] para score do produto: ${productNameKey}`);
+    return scoreCache.get(productNameKey)!;
+  }
+
+  console.log(`[CACHE MISS] para score do produto: ${productNameKey}. Chamando IA.`);
+  const result = await scoreProductByNameFlow(input);
+  
+  // Armazena no cache apenas se o produto foi identificado com sucesso.
+  if (result.identified) {
+    scoreCache.set(productNameKey, result);
+  }
+
+  return result;
 }
 
 const prompt = ai.definePrompt({
@@ -108,5 +128,3 @@ const scoreProductByNameFlow = ai.defineFlow(
     }
   }
 );
-
-    
