@@ -100,7 +100,7 @@ export default function NationalStatsPage() {
 
   useEffect(() => {
     async function fetchCO2DataForYear(year: number): Promise<{ status: 'success' | 'nodata' | 'apierror' | 'networkerror', data?: any, message?: string }> {
-      const url = `https://api.climatetrace.org/v1/emissions/totals?&countries=BRA&year=${year}`;
+      const url = `https://api.climatetrace.org/v1/emissions/totals?countries=BRA&year=${year}`;
       try {
         const response = await fetch(url);
         if (!response.ok) {
