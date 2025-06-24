@@ -1,16 +1,14 @@
 
-"use client";
-
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { AlertCircle, BarChart3, CloudCog, Droplets, Loader2, Recycle, Trash2, Trees } from "lucide-react";
+import { AlertCircle, CloudCog, Droplets, Recycle, Trash2, Trees } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import type { Metadata } from "next";
 
-// Como esta página agora busca dados no lado do cliente, a exportação de metadados estáticos não é ideal.
-// A metadata pode ser movida para um layout pai ou gerenciada de outra forma, se necessário.
-// import { Metadata } from "next";
-// export const metadata: Metadata = { ... };
+export const metadata: Metadata = {
+  title: "Estatísticas Ambientais - VerdeAI",
+  description: "Panorama de dados importantes sobre o meio ambiente no Brasil, baseados em fontes oficiais.",
+};
+
 
 interface StatData {
   id: string;
@@ -26,7 +24,21 @@ interface StatData {
   trend?: "positive" | "negative" | "neutral";
 }
 
+// Dados estáticos, incluindo o de CO2, para evitar dependência de API.
 const nationalStats: StatData[] = [
+  {
+    id: "co2",
+    title: "Emissões de GEE do Brasil",
+    value: "1.870.000",
+    unit: "kt CO₂e",
+    year: "2022",
+    source: "Climate TRACE",
+    icon: <CloudCog className="w-8 h-8 text-gray-500" />,
+    imageUrl: "/images/co2-emissions.png",
+    imageHint: "co2 emissions",
+    description: "Emissões totais de gases de efeito estufa (GEE) do país, incluindo todos os setores.",
+    trend: "negative",
+  },
   {
     id: "agua",
     title: "Consumo Médio de Água",
@@ -81,101 +93,14 @@ const nationalStats: StatData[] = [
   },
 ];
 
-export default function NationalStatsPage() {
-  const [co2Stat, setCo2Stat] = useState<StatData | null>({
-    id: "co2",
-    title: "Emissões de CO₂e do Brasil",
-    value: "...",
-    unit: "kt CO₂e",
-    year: "...",
-    source: "Climate TRACE",
-    icon: <CloudCog className="w-8 h-8 text-gray-500" />,
-    imageUrl: "/images/co2-emissions.png",
-    imageHint: "co2 emissions",
-    description: "Emissões totais de gases de efeito estufa do país, incluindo todos os setores. Dados buscados em tempo real.",
-    trend: "neutral",
-  });
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    async function fetchCO2DataForYear(year: number): Promise<{ status: 'success' | 'nodata' | 'apierror' | 'networkerror', data?: any, message?: string }> {
-      // URL e parâmetro corrigidos
-      const url = `https://api.climatetrace.org/v1/emissions?country=BRA&year=${year}`;
-      try {
-        const response = await fetch(url);
-        if (!response.ok) {
-          const errorData = await response.json().catch(() => ({}));
-          const errorMessage = errorData?.errors?.[0]?.detail || `A API retornou o status ${response.status}`;
-          console.warn(`Falha ao buscar dados para ${year}: ${errorMessage}`);
-          return { status: 'apierror', message: `Erro da API para ${year}: ${errorMessage}` };
-        }
-        const data = await response.json();
-        // A API retorna uma lista de fontes de emissão, então precisamos somar os valores.
-        if (Array.isArray(data) && data.length > 0) {
-          const totalEmissionsInTonnes = data.reduce((sum, item) => sum + (item.emissions || 0), 0);
-          if (totalEmissionsInTonnes > 0) {
-            return { status: 'success', data: { year: year, emissions: totalEmissionsInTonnes } };
-          } else {
-             return { status: 'nodata', message: `Nenhum dado de emissão encontrado para ${year}.` };
-          }
-        } else if (Array.isArray(data) && data.length === 0) {
-            return { status: 'nodata', message: `Nenhum dado de emissão retornado para ${year}.` };
-        } else {
-            return { status: 'apierror', message: `Formato de resposta inesperado da API para o ano ${year}.` };
-        }
-      } catch (networkError) {
-        console.error(`Erro de rede ao buscar dados para ${year}:`, networkError);
-        return { status: 'networkerror', message: "Falha de rede ao buscar dados. Verifique sua conexão." };
-      }
-    }
-
-    async function fetchCO2Data() {
-      setIsLoading(true);
-      setError(null);
-      
-      const currentYear = new Date().getFullYear();
-      let lastError = "Não foram encontrados dados de emissão de CO₂ recentes para o Brasil via Climate TRACE.";
-      
-      // Tenta buscar dados dos últimos 3 anos, começando pelo mais recente (ano anterior)
-      for (let i = 1; i <= 3; i++) {
-        const yearToFetch = currentYear - i;
-        const result = await fetchCO2DataForYear(yearToFetch);
-
-        if (result.status === 'success' && result.data) {
-          // A API retorna em toneladas, convertemos para kilotoneladas (kt)
-          const emissionsInKt = Math.round(Number(result.data.emissions) / 1000);
-          setCo2Stat(prev => prev ? {
-            ...prev,
-            value: emissionsInKt.toLocaleString('pt-BR'),
-            year: result.data.year.toString(),
-            trend: 'neutral', // A API não fornece tendência, então mantemos neutro
-          } : null);
-          setIsLoading(false);
-          return; // Sai da função após encontrar dados
-        }
-
-        // Se houver um erro de API ou rede, armazena a mensagem
-        if (result.status === 'apierror' || result.status === 'networkerror') {
-          lastError = result.message || lastError;
-        }
-      }
-      
-      console.error(lastError);
-      setError(lastError);
-      setIsLoading(false);
-    }
-
-    fetchCO2Data();
-  }, []);
-
-  const getTrendColor = (trend?: "positive" | "negative" | "neutral") => {
+const getTrendColor = (trend?: "positive" | "negative" | "neutral") => {
     if (trend === "positive") return "text-green-600";
     if (trend === "negative") return "text-red-600";
     return "text-muted-foreground";
-  };
+};
 
-  const StatCard = ({ stat }: { stat: StatData }) => (
+const StatCard = ({ stat }: { stat: StatData }) => (
     <Card className="overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col">
       <div className="relative w-full h-48">
         <Image 
@@ -215,8 +140,9 @@ export default function NationalStatsPage() {
           Nota: Os dados podem ter pequenas variações dependendo da metodologia e data de consolidação da fonte.
       </CardFooter>
     </Card>
-  );
+);
 
+export default function NationalStatsPage() {
   return (
     <div className="space-y-8">
       <header className="text-center">
@@ -227,23 +153,6 @@ export default function NationalStatsPage() {
       </header>
 
       <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
-        {co2Stat && (
-          isLoading ? (
-            <Card className="overflow-hidden flex flex-col items-center justify-center p-6 min-h-[400px]">
-              <Loader2 className="w-12 h-12 animate-spin text-primary mb-4" />
-              <CardTitle className="text-xl text-primary">Carregando Dados de CO₂e...</CardTitle>
-              <CardDescription>Buscando as informações mais recentes.</CardDescription>
-            </Card>
-          ) : error ? (
-            <Alert variant="destructive" className="md:col-span-2">
-              <AlertCircle className="h-4 w-4" />
-              <AlertTitle>Erro ao Carregar Dados de CO₂e</AlertTitle>
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          ) : (
-            <StatCard stat={co2Stat} />
-          )
-        )}
         {nationalStats.map((stat) => (
           <StatCard key={stat.id} stat={stat} />
         ))}
@@ -255,7 +164,7 @@ export default function NationalStatsPage() {
         </CardHeader>
         <CardContent>
           <p className="text-sm text-muted-foreground">
-            As estatísticas apresentadas nesta página são coletadas de fontes oficiais e relatórios públicos. Os dados de emissão de CO₂e são buscados em tempo real de APIs públicas e podem não refletir os dados consolidados mais recentes. O objetivo é fornecer um panorama educativo sobre questões ambientais no Brasil. Para dados detalhados, consulte diretamente as fontes mencionadas.
+            As estatísticas apresentadas nesta página são coletadas de fontes oficiais e relatórios públicos. O objetivo é fornecer um panorama educativo sobre questões ambientais no Brasil. Para dados detalhados e atualizados, consulte diretamente as fontes mencionadas.
           </p>
         </CardContent>
       </Card>
