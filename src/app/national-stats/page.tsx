@@ -100,7 +100,8 @@ export default function NationalStatsPage() {
 
   useEffect(() => {
     async function fetchCO2DataForYear(year: number): Promise<{ status: 'success' | 'nodata' | 'apierror' | 'networkerror', data?: any, message?: string }> {
-      const url = `https://api.climatetrace.org/v1/emissions/totals?countries=BRA&year=${year}`;
+      // URL e parâmetro corrigidos
+      const url = `https://api.climatetrace.org/v1/emissions?country=BRA&year=${year}`;
       try {
         const response = await fetch(url);
         if (!response.ok) {
@@ -110,10 +111,18 @@ export default function NationalStatsPage() {
           return { status: 'apierror', message: `Erro da API para ${year}: ${errorMessage}` };
         }
         const data = await response.json();
-        if (data && data.length > 0 && data[0].emissions) {
-          return { status: 'success', data: { year: year, emissions: data[0].emissions } };
+        // A API retorna uma lista de fontes de emissão, então precisamos somar os valores.
+        if (Array.isArray(data) && data.length > 0) {
+          const totalEmissionsInTonnes = data.reduce((sum, item) => sum + (item.emissions || 0), 0);
+          if (totalEmissionsInTonnes > 0) {
+            return { status: 'success', data: { year: year, emissions: totalEmissionsInTonnes } };
+          } else {
+             return { status: 'nodata', message: `Nenhum dado de emissão encontrado para ${year}.` };
+          }
+        } else if (Array.isArray(data) && data.length === 0) {
+            return { status: 'nodata', message: `Nenhum dado de emissão retornado para ${year}.` };
         } else {
-          return { status: 'nodata', message: `Nenhum dado encontrado para ${year}.` };
+            return { status: 'apierror', message: `Formato de resposta inesperado da API para o ano ${year}.` };
         }
       } catch (networkError) {
         console.error(`Erro de rede ao buscar dados para ${year}:`, networkError);
@@ -128,22 +137,25 @@ export default function NationalStatsPage() {
       const currentYear = new Date().getFullYear();
       let lastError = "Não foram encontrados dados de emissão de CO₂ recentes para o Brasil via Climate TRACE.";
       
+      // Tenta buscar dados dos últimos 3 anos, começando pelo mais recente (ano anterior)
       for (let i = 1; i <= 3; i++) {
         const yearToFetch = currentYear - i;
         const result = await fetchCO2DataForYear(yearToFetch);
 
         if (result.status === 'success' && result.data) {
+          // A API retorna em toneladas, convertemos para kilotoneladas (kt)
           const emissionsInKt = Math.round(Number(result.data.emissions) / 1000);
           setCo2Stat(prev => prev ? {
             ...prev,
             value: emissionsInKt.toLocaleString('pt-BR'),
             year: result.data.year.toString(),
-            trend: 'neutral',
+            trend: 'neutral', // A API não fornece tendência, então mantemos neutro
           } : null);
           setIsLoading(false);
-          return;
+          return; // Sai da função após encontrar dados
         }
 
+        // Se houver um erro de API ou rede, armazena a mensagem
         if (result.status === 'apierror' || result.status === 'networkerror') {
           lastError = result.message || lastError;
         }
