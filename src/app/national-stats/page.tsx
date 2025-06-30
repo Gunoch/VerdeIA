@@ -1,6 +1,6 @@
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { AlertCircle, CloudCog, Droplets, Recycle, Trash2, Trees } from "lucide-react";
+import { AlertCircle, CloudCog, Droplets, FilterX, Recycle, Trash2, Trees, Users, Wind } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -35,15 +35,26 @@ const nationalStats: StatData[] = [
     trend: "negative",
   },
   {
-    id: "agua",
-    title: "Consumo Médio de Água",
-    value: "152,1",
-    unit: "litros/habitante/dia",
+    id: "energia",
+    title: "Energia Renovável na Matriz Energética",
+    value: "47,4",
+    unit: "% da oferta interna",
     year: "2022",
-    source: "SNIS",
-    icon: <Droplets className="w-8 h-8 text-blue-500" />,
-    description: "Refere-se ao volume de água consumido por pessoa em média no país.",
-    trend: "neutral",
+    source: "Balanço Energético Nacional / EPE",
+    icon: <Wind className="w-8 h-8 text-cyan-500" />,
+    description: "Participação de fontes renováveis (hidrelétrica, eólica, solar, biomassa) na matriz energética total do país.",
+    trend: "positive",
+  },
+  {
+    id: "desmatamento",
+    title: "Desmatamento na Amazônia Legal",
+    value: "11.568",
+    unit: "km²/ano",
+    year: "2022",
+    source: "PRODES/INPE",
+    icon: <Trees className="w-8 h-8 text-red-600" />,
+    description: "Área de floresta desmatada na região da Amazônia Legal brasileira.",
+    trend: "negative",
   },
   {
     id: "residuos",
@@ -68,15 +79,37 @@ const nationalStats: StatData[] = [
     trend: "positive",
   },
   {
-    id: "desmatamento",
-    title: "Desmatamento na Amazônia Legal",
-    value: "11.568",
-    unit: "km²/ano",
+    id: "agua",
+    title: "Consumo Médio de Água",
+    value: "152,1",
+    unit: "litros/habitante/dia",
     year: "2022",
-    source: "PRODES/INPE",
-    icon: <Trees className="w-8 h-8 text-red-600" />,
-    description: "Área de floresta desmatada na região da Amazônia Legal brasileira.",
+    source: "SNIS",
+    icon: <Droplets className="w-8 h-8 text-blue-500" />,
+    description: "Refere-se ao volume de água consumido por pessoa em média no país.",
+    trend: "neutral",
+  },
+  {
+    id: "perda-agua",
+    title: "Perda de Água Potável",
+    value: "37,8",
+    unit: "% da água tratada perdida",
+    year: "2022",
+    source: "Instituto Trata Brasil / SNIS",
+    icon: <FilterX className="w-8 h-8 text-yellow-600" />,
+    description: "Percentual de água potável que é perdida durante a distribuição antes de chegar ao consumidor final.",
     trend: "negative",
+  },
+  {
+    id: "saneamento",
+    title: "Coleta de Esgoto",
+    value: "55,8",
+    unit: "% da população atendida",
+    year: "2022",
+    source: "Instituto Trata Brasil / SNIS",
+    icon: <Users className="w-8 h-8 text-indigo-500" />,
+    description: "Percentual da população brasileira com acesso à rede de coleta de esgoto.",
+    trend: "neutral",
   },
 ];
 
@@ -130,7 +163,7 @@ export default function NationalStatsPage() {
         </p>
       </header>
 
-      <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
         {nationalStats.map((stat) => (
           <StatCard key={stat.id} stat={stat} />
         ))}
