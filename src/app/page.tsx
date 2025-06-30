@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Leaf, Gauge, Search, Brain } from "lucide-react"; // Alterado ícone de Replace para Search/Brain
@@ -40,9 +39,9 @@ export default function HomePage() {
       </section>
 
       <section className="text-center bg-card p-6 md:p-8 rounded-lg shadow-lg">
-        <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-foreground">O Poder da Escolha em Suas Mãos</h2>
+        <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-foreground">Junte-se à Revolução Verde</h2>
         <p className="text-muted-foreground mb-6 max-w-xl mx-auto">
-          Analise o impacto ambiental de qualquer produto com nossa IA. Receba pontuações, dicas e descubra alternativas sustentáveis em segundos.
+          VerdeAI capacita você a tomar decisões informadas para um futuro mais sustentável. Cada pequena ação conta!
         </p>
         <div className="aspect-video max-w-2xl mx-auto rounded-md overflow-hidden">
           <Image 
