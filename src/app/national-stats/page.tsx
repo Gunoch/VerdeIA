@@ -1,7 +1,6 @@
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { AlertCircle, CloudCog, Droplets, Recycle, Trash2, Trees } from "lucide-react";
-import Image from "next/image";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -18,8 +17,6 @@ interface StatData {
   year: string;
   source: string;
   icon: React.ReactNode;
-  imageUrl: string;
-  imageHint: string;
   description?: string;
   trend?: "positive" | "negative" | "neutral";
 }
@@ -34,8 +31,6 @@ const nationalStats: StatData[] = [
     year: "2022",
     source: "Climate TRACE",
     icon: <CloudCog className="w-8 h-8 text-gray-500" />,
-    imageUrl: "/images/co2-emissions.png",
-    imageHint: "co2 emissions",
     description: "Emissões totais de gases de efeito estufa (GEE) do país, incluindo todos os setores.",
     trend: "negative",
   },
@@ -47,8 +42,6 @@ const nationalStats: StatData[] = [
     year: "2022",
     source: "SNIS",
     icon: <Droplets className="w-8 h-8 text-blue-500" />,
-    imageUrl: "/images/water-tap.png",
-    imageHint: "water tap",
     description: "Refere-se ao volume de água consumido por pessoa em média no país.",
     trend: "neutral",
   },
@@ -60,8 +53,6 @@ const nationalStats: StatData[] = [
     year: "2022",
     source: "Abrelpe",
     icon: <Trash2 className="w-8 h-8 text-orange-500" />,
-    imageUrl: "/images/garbage-landfill.png",
-    imageHint: "garbage landfill",
     description: "Quantidade total de lixo gerado nas áreas urbanas do Brasil.",
      trend: "negative",
   },
@@ -73,8 +64,6 @@ const nationalStats: StatData[] = [
     year: "2022",
     source: "Abrelpe / SNIS",
     icon: <Recycle className="w-8 h-8 text-green-500" />,
-    imageUrl: "/images/recycling-bins.png",
-    imageHint: "recycling bins",
     description: "Percentual de resíduos sólidos urbanos que são efetivamente reciclados.",
     trend: "positive",
   },
@@ -86,8 +75,6 @@ const nationalStats: StatData[] = [
     year: "2022",
     source: "PRODES/INPE",
     icon: <Trees className="w-8 h-8 text-red-600" />,
-    imageUrl: "/images/deforestation-aerial.png",
-    imageHint: "deforestation aerial",
     description: "Área de floresta desmatada na região da Amazônia Legal brasileira.",
     trend: "negative",
   },
@@ -102,15 +89,6 @@ const getTrendColor = (trend?: "positive" | "negative" | "neutral") => {
 
 const StatCard = ({ stat }: { stat: StatData }) => (
     <Card className="overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col">
-      <div className="relative w-full h-48">
-        <Image 
-          src={stat.imageUrl} 
-          alt={stat.title} 
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover"
-        />
-      </div>
       <CardHeader>
         <div className="flex items-center gap-3 mb-2">
           {stat.icon}
