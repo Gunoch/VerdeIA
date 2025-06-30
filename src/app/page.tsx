@@ -40,15 +40,15 @@ export default function HomePage() {
       </section>
 
       <section className="text-center bg-card p-6 md:p-8 rounded-lg shadow-lg">
-        <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-foreground">Junte-se à Revolução Verde</h2>
+        <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-foreground">O Poder da Escolha em Suas Mãos</h2>
         <p className="text-muted-foreground mb-6 max-w-xl mx-auto">
-          VerdeAI capacita você a tomar decisões informadas para um futuro mais sustentável. Cada pequena ação conta!
+          Analise o impacto ambiental de qualquer produto com nossa IA. Receba pontuações, dicas e descubra alternativas sustentáveis em segundos.
         </p>
         <div className="aspect-video max-w-2xl mx-auto rounded-md overflow-hidden">
           <Image 
-            src="/images/Footage_flying_over_202506251446.gif" 
+            src="https://placehold.co/800x450.png" 
             alt="Vídeo de paisagem verdejante" 
- data-ai-hint="nature landscape"
+            data-ai-hint="nature landscape"
             width={800} 
             height={450} 
             className="w-full h-full object-cover"
