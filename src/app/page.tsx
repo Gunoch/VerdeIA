@@ -49,7 +49,7 @@ export default function HomePage() {
             <Image
               src="https://placehold.co/800x450.png"
               data-ai-hint="green landscape"
-              alt="Animated footage flying over a green landscape"
+              alt="Lush green landscape"
               width={800}
               height={450}
               className="w-full h-full object-cover"
