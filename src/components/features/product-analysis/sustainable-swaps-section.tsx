@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -37,7 +36,7 @@ export default function SustainableSwapsSection({ productCategory, originalProdu
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-lg">
           <Leaf className="w-5 h-5 text-primary" />
-          Alternativas Verdes para {originalProductName || relevantSwapCategory.name}
+          Alternativas Verdes
         </CardTitle>
         <CardDescription>
           {relevantSwapCategory.description}
