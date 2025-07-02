@@ -46,8 +46,8 @@ export default function HomePage() {
           </p>
           <div className="aspect-video max-w-2xl mx-auto rounded-md overflow-hidden">
             <Image
-              src="https://placehold.co/800x450.png"
-              data-ai-hint="green landscape"
+              src="/images/Footage_flying_over_202506251446.gif"
+              data-ai-hint="Drone footage flying over a lush green landscape, showcasing a sustainable future."
               alt="Lush green landscape"
               width={800}
               height={450}
